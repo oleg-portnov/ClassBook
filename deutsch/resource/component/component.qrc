@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/component">
+        <file>AddCardDialog.qml</file>
+        <file>main.qml</file>
+        <file>WordCard.qml</file>
+        <file>SideMenu.qml</file>
+        <file>AnswerCard.qml</file>
+        <file>SimpleBtn.qml</file>
+        <file>BtnCloseSideMenu.qml</file>
+        <file>LekitonRepeater.qml</file>
+    </qresource>
+</RCC>
