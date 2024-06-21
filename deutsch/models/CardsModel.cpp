@@ -7,7 +7,7 @@ namespace classbook {
 
 int CardsModel::getRandomIndex() const
 {
-    return QRandomGenerator::global()->bounded(5/*m_cards.size()*/);
+    return QRandomGenerator::global()->bounded(6/*m_cards.size()*/);
 }
 
 void CardsModel::setLection(int lek_num)
