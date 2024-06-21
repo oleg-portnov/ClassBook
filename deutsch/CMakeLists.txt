@@ -6,19 +6,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 6.5 REQUIRED COMPONENTS Quick)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Quick)
 
-qt_standard_project_setup(REQUIRES 6.5)
+qt_standard_project_setup(REQUIRES 6.7)
 
 set(SOURCES
     models/CardsModel.cpp
-
 )
 
 set(HEADERS
     models/CardsModel.h
     models/WordCard.h
-
 )
 
 set(RESOURCE
@@ -44,6 +42,7 @@ target_link_libraries(ClassBook
 )
 
 include(GNUInstallDirs)
+
 install(TARGETS ClassBook
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
