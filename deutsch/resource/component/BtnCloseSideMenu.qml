@@ -7,19 +7,19 @@ import QtCore
 import classbook
 
 Button {
-            id: close_side_menu
+    id: close_side_menu
 
-            width: 40
-            height: 40
+    width: 40
+    height: 40
 
-            onClicked: side_menu.close()
+    onClicked: side_menu.close()
 
-            icon.name: "menu"
-            icon.source: "/img/close.svg"
+    icon.name: "menu"
+    icon.source: "/img/close.svg"
 
-            background: Rectangle {
-                color: "#5599bb"
-                anchors.fill: parent
-                radius: 14
-            }
-        }
+    background: Rectangle {
+        color: "#5599bb"
+        anchors.fill: parent
+        radius: 14
+    }
+}
