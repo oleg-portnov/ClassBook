@@ -60,9 +60,9 @@ void CardsModel::saveLection()
         save_file.write(jdoc.toJson());
 
         if (save_file.commit())
-            qDebug() << "Файл успешно сохранен:" << save_file.fileName();
+            qDebug() << "File saved successfully:" << save_file.fileName();
         else
-            qWarning() << "Не удалось сохранить файл:" << save_file.errorString();
+            qWarning() << "Failed to save file:" << save_file.errorString();
     }
     else
     {
@@ -128,9 +128,9 @@ void CardsModel::saveToFile(const QString& path)
         save_file.write(jdoc.toJson());
 
         if (save_file.commit())
-            qInfo() << "Файл успешно сохранен:" << full_patch;
+            qInfo() << "File saved successfully:" << full_patch;
         else
-            qWarning() << "Не удалось сохранить файл:" << save_file.errorString();
+            qWarning() << "Failed to save file:" << save_file.errorString();
     }
     else
     {
@@ -199,9 +199,9 @@ QString CardsModel::copyToImgFolder(const QString& source, const QString& destin
     full_destination = dir_destination + info.fileName();
 
     if (source_file.copy(full_destination))
-        qDebug() << "Файл успешно скопирован.";
+        qDebug() << "File copied successfully.";
     else
-        qDebug() << "Не удалось скопировать файл: " << source_file.errorString();
+        qDebug() << "Failed to copy file: " << source_file.errorString();
 
     return full_destination;
 }
