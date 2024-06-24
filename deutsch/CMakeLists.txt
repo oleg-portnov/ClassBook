@@ -16,7 +16,7 @@ set(SOURCES
 
 set(HEADERS
     models/CardsModel.h
-    models/WordCard.h
+    card/WordCard.h
 )
 
 set(RESOURCE

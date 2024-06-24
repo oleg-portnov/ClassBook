@@ -1,5 +1,5 @@
 #include "CardsModel.h"
-#include "WordCard.h"
+#include "card/WordCard.h"
 
 #include <QVariantMap>
 
