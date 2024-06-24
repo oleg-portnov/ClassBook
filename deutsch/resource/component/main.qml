@@ -152,7 +152,7 @@ Window {
     CardsModel {
         id: cards_model
 
-        Component.onCompleted: loadRandomCards()
+        Component.onCompleted: loadRandomLektion()
 
         onSigCardsChanged: {
             card.updateCard()
@@ -247,7 +247,7 @@ Window {
             var is_target_language = Math.random() < 0.5
             target_language = is_target_language
 
-            var index = cards_model.getRandomIndex()
+            var index = cards_model.getRandomCardIndex()
 
             cur_id = cards_model.getId(index)
 
@@ -258,12 +258,16 @@ Window {
 
             cards_model.increaseShowingCount(index)
             card.show_count = cards_model.getShowingCount(index)
+            card.correctly_count = cards_model.getCorrectlyCount(index)
+            card.incorrect_count = cards_model.getIncorrectCount(index)
+
+            card.updateState()
 
             var random_indx = []
             var random_item_count = Math.floor(Math.random() * 3) + 4
 
             for (var ii = 0; ii < random_item_count; ii++) {
-                var rndm_index = cards_model.getRandomIndex()
+                var rndm_index = cards_model.getRandomCardIndex()
                 if (!random_indx.includes(rndm_index) && rndm_index !== index) {
                     random_indx.push(rndm_index)
                 }

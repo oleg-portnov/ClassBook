@@ -5,9 +5,14 @@
 
 namespace classbook {
 
-int CardsModel::getRandomIndex() const
+int CardsModel::getRandomLektionIndex() const
 {
     return QRandomGenerator::global()->bounded(m_max_lektion_idx);
+}
+
+int CardsModel::getRandomCardIndex() const
+{
+    return QRandomGenerator::global()->bounded(m_cards.size() - 1);
 }
 
 inline int toLektionNum(int lek_idx)
@@ -20,7 +25,7 @@ void CardsModel::setLection(int lek_idx)
     m_lektion_num = toLektionNum(lek_idx);
 
     if (lek_idx < 0 || lek_idx > m_max_lektion_idx)
-        loadRandomCards();
+        loadRandomLektion();
 
     if (!loadFromFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + QString("lektion_%1").arg(m_lektion_num)))
         loadFromResource(lek_idx);
@@ -73,9 +78,9 @@ void CardsModel::saveLection()
     }
 }
 
-void CardsModel::loadRandomCards()
+void CardsModel::loadRandomLektion()
 {
-    loadFromResource(getRandomIndex());
+    loadFromResource(getRandomLektionIndex());
 }
 
 void CardsModel::loadFromResource(int lek_idx)

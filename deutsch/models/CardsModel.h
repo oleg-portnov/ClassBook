@@ -32,12 +32,13 @@ public:
     }; // InfoRoles
 
 public:
-    Q_INVOKABLE int getRandomIndex() const;
+    Q_INVOKABLE int getRandomLektionIndex() const;
+    Q_INVOKABLE int getRandomCardIndex() const;
 
     Q_INVOKABLE void setLection(int lek_idx);
     Q_INVOKABLE void saveLection();
 
-    Q_INVOKABLE void loadRandomCards();
+    Q_INVOKABLE void loadRandomLektion();
     Q_INVOKABLE void loadFromResource(int lek_idx);
 
     Q_INVOKABLE void saveToFile(const QString& path);
