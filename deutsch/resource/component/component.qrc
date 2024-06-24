@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/component">
         <file>main.qml</file>
-        <file>AddCardDialog.qml</file>
         <file>AnswerCard.qml</file>
-        <file>BtnCloseSideMenu.qml</file>
         <file>WordCard.qml</file>
     </qresource>
 </RCC>

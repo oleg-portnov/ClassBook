@@ -96,11 +96,13 @@ Item {
             Rectangle {
                 id: text_br
 
-                implicitHeight: help_br.visible ? 80 : 40
+                property int def_margin: 40
 
-                implicitWidth:  help_br.visible ? text_help.implicitWidth > tr_text.implicitWidth ? text_help.implicitWidth + 40
-                                                                                                  : tr_text.implicitWidth + 40
-                                                : tr_text.implicitWidth + 40
+                implicitHeight: help_br.visible ? def_margin * 2 : def_margin
+
+                implicitWidth:  help_br.visible ? text_help.implicitWidth > tr_text.implicitWidth ? text_help.implicitWidth + def_margin
+                                                                                                  : tr_text.implicitWidth + def_margin
+                                                : tr_text.implicitWidth + def_margin
 
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter

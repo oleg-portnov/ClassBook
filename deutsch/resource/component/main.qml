@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtQuick.Dialogs
 
 import classbook
 
@@ -84,11 +83,22 @@ Window {
             card.updateCard()
         }
 
-        BtnCloseSideMenu {
+        Button {
             id: close_side_menu
 
             x: 10
             y: 10
+
+            width: 40
+            height: 40
+
+            icon.source: "/img/close.svg"
+
+            background: Rectangle {
+                color: "#5599bb"
+                anchors.fill: parent
+                radius: 14
+            }
 
             onClicked: side_menu.close()
         }
@@ -284,6 +294,7 @@ Window {
         color: "#004f77"
 
         radius: 14
+
         border.color: "#003755"
         border.width: 1
 
@@ -319,6 +330,7 @@ Window {
 
         PropertyAnimation {
             id: shake_animation
+
             property: "scale"
 
             from: 1.0
@@ -331,6 +343,7 @@ Window {
 
         PropertyAnimation {
             id: gradient_animation
+
             property: "color"
 
             easing.type: Easing.Linear
@@ -347,6 +360,7 @@ Window {
 
         PropertyAnimation {
             id: decrease_animation
+
             property: "scale"
 
             from: 1.0
@@ -358,6 +372,7 @@ Window {
 
         PropertyAnimation {
             id: to_red_animation
+
             property: "color"
 
             easing.type: Easing.Linear
