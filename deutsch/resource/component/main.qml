@@ -17,7 +17,7 @@ Window {
     color: "#004466"
 
     function cardUpdated() {
-        ++save_count;
+        ++save_count
 
         if (save_count === save_count_trig) {
             cards_model.saveLection()
@@ -26,22 +26,22 @@ Window {
     }
 
     function correctAnswer(index) {
-        var item = card_repeater.itemAt(index);
+        var item = card_repeater.itemAt(index)
         if (item !== undefined) {
             cards_model.increaseCorrectlyCount(cards_model.indexById(cur_id))
-            shake_animation.target = item;
-            gradient_animation.target = item;
-            good_animation.start();
+            shake_animation.target = item
+            gradient_animation.target = item
+            good_animation.start()
         }
     }
 
     function incorrectAnswer(index) {
-        var item = card_repeater.itemAt(index);
+        var item = card_repeater.itemAt(index)
         if (item !== undefined) {
             cards_model.increaseIncorrectCount(cards_model.indexById(cur_id))
-            decrease_animation.target = item;
-            to_red_animation.target = item;
-            incorrect_animation.start();
+            decrease_animation.target = item
+            to_red_animation.target = item
+            incorrect_animation.start()
         }
     }
 
@@ -282,7 +282,7 @@ Window {
                                       is_correct_answer: false})
             }
 
-            var random_insert_indx = Math.floor(Math.random() * (answers_model.count + 1));
+            var random_insert_indx = Math.floor(Math.random() * (answers_model.count + 1))
             answers_model.insert(random_insert_indx, {element_text: is_target_language ? cards_model.getTextRu(index)
                                                                                        : cards_model.getTextDe(index),
                                                       is_correct_answer: true})
