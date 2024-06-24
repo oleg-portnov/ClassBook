@@ -1,14 +1,13 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
-import QtCore
 
 import classbook
 
 Dialog {
     id: root
 
-    title: qsTr("Добавление карточки")
+    title: qsTr("Adding a card")
 
     width: root_window.width
     height: root_window.height
@@ -41,11 +40,12 @@ Dialog {
         id: url
 
         anchors.bottom: textDeField.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-
         anchors.bottomMargin: 6
+
+        anchors.left: parent.left
         anchors.leftMargin: 9
+
+        anchors.right: parent.right
         anchors.rightMargin: 9
 
         visible: false
@@ -61,32 +61,34 @@ Dialog {
     TextField {
         id: textDeField
 
-        placeholderText: qsTr("Введите текст на немецком")
+        placeholderText: qsTr("Enter text in German")
 
         height: 40
 
         anchors.bottom: textRuField.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-
         anchors.bottomMargin: 6
+
+        anchors.left: parent.left
         anchors.leftMargin: 9
+
+        anchors.right: parent.right
         anchors.rightMargin: 9
     }
 
     TextField {
         id: textRuField
 
-        placeholderText: qsTr("Введите текст на русском")
+        placeholderText: qsTr("Enter text in Russian")
 
         height: 40
 
         anchors.bottom: btn_save.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-
         anchors.bottomMargin: 6
+
+        anchors.left: parent.left
         anchors.leftMargin: 9
+
+        anchors.right: parent.right
         anchors.rightMargin: 9
     }
 
@@ -98,7 +100,7 @@ Dialog {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
 
-        text: qsTr("Выбрать изображение")
+        text: qsTr("Select image")
         onClicked: fileDialog.open()
     }
 
@@ -110,17 +112,23 @@ Dialog {
         implicitWidth: 100
 
         anchors.bottom: parent.bottom
-        anchors.left: btn_sel_img.right
-        anchors.right: btn_cancel.left
 
+        anchors.left: btn_sel_img.right
         anchors.leftMargin: 6
+
+        anchors.right: btn_cancel.left
         anchors.rightMargin: 6
 
-        text: qsTr("Сохранить")
+        text: qsTr("Save")
+
         onClicked: {
-            cardsModel.addCard(textDeField.text, textRuField.text, cardsModel.copyToImgFolder(fileDialog.currentFile, StandardPaths.writableLocation(StandardPaths.DocumentsLocation)))
+            cardsModel.addCard(textDeField.text,
+                               textRuField.text,
+                               cardsModel.copyToImgFolder(fileDialog.currentFile,
+                                                          StandardPaths.writableLocation(StandardPaths.DocumentsLocation)))
             textDeField.text = ""
             textRuField.text = ""
+
             root.accept()
         }
     }
@@ -133,14 +141,15 @@ Dialog {
         anchors.bottom: parent.bottom
         anchors.right: parent.right
 
-        text: qsTr("Отмена")
+        text: qsTr("Cancel")
+
         onClicked: root.close()
     }
 
     FileDialog {
         id: fileDialog
 
-        title: qsTr("Выберите изображение")
+        title: qsTr("Select an image")
 
         nameFilters: ["Images (*.png *.jpg)"]
 

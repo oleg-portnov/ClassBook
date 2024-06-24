@@ -7,20 +7,23 @@ namespace classbook {
 
 int CardsModel::getRandomIndex() const
 {
-    return QRandomGenerator::global()->bounded(6/*m_cards.size()*/);
+    return QRandomGenerator::global()->bounded(m_max_lektion_idx);
 }
 
-void CardsModel::setLection(int lek_num)
+inline int toLektionNum(int lek_idx)
 {
-    if (lek_num >= 0)
-    {
-        loadFromFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + QString("lektion_%1").arg(lek_num));
-    }
-    else
-    {
-        m_lektion_num = 1 + getRandomIndex();
-        reloadLektion(m_lektion_num);
-    }
+    return lek_idx + 1;
+}
+
+void CardsModel::setLection(int lek_idx)
+{
+    m_lektion_num = toLektionNum(lek_idx);
+
+    if (lek_idx < 0 || lek_idx > m_max_lektion_idx)
+        loadRandomCards();
+
+    if (!loadFromFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + QString("lektion_%1").arg(m_lektion_num)))
+        loadFromResource(lek_idx);
 }
 
 void CardsModel::saveLection()
@@ -39,12 +42,12 @@ void CardsModel::saveLection()
         card_obj["text_ru"] = card.text_ru;
         card_obj["text_de"] = card.text_de;
 
-        card_obj["showing"] = card.showing_count;
+        card_obj["showing"] = card.showing;
 
         card_obj["part"] = card.part_of_speech;
 
-        card_obj["correctly"] = card.correctly_count;
-        card_obj["incorrect"] = card.incorrect_count;
+        card_obj["correctly"] = card.correctly;
+        card_obj["incorrect"] = card.incorrect;
 
         cards_array.append(card_obj);
     }
@@ -72,8 +75,13 @@ void CardsModel::saveLection()
 
 void CardsModel::loadRandomCards()
 {
-    m_lektion_num = getRandomIndex();
-    loadFromFile(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation) + "/" + QString("lektion_%1").arg(m_lektion_num));
+    loadFromResource(getRandomIndex());
+}
+
+void CardsModel::loadFromResource(int lek_idx)
+{
+    m_lektion_num = toLektionNum(lek_idx);
+    loadFromFile(QString(":/cards/lektion_%1").arg(m_lektion_num));
 }
 
 void CardsModel::saveToFile(const QString& path)
@@ -92,12 +100,12 @@ void CardsModel::saveToFile(const QString& path)
         card_obj["text_ru"] = card.text_ru;
         card_obj["text_de"] = card.text_de;
 
-        card_obj["showing"] = card.showing_count;
+        card_obj["showing"] = card.showing;
 
         card_obj["part"] = card.part_of_speech;
 
-        card_obj["correctly"] = card.correctly_count;
-        card_obj["incorrect"] = card.incorrect_count;
+        card_obj["correctly"] = card.correctly;
+        card_obj["incorrect"] = card.incorrect;
 
         cards_array.append(card_obj);
     }
@@ -138,47 +146,49 @@ void CardsModel::saveToFile(const QString& path)
     }
 }
 
-void CardsModel::loadFromFile(const QString& path)
+bool CardsModel::loadFromFile(const QString& path)
 {
     QFile load_file(removeFilePrefix(path));
 
-    if (load_file.open(QIODevice::ReadOnly))
+    if (!load_file.exists())
     {
-        QByteArray save_data = load_file.readAll();
-        QJsonDocument load_doc(QJsonDocument::fromJson(save_data));
-
-        m_cards.clear();
-
-        QJsonArray cards_array = load_doc["cards"].toArray();
-
-        bool added = false;
-
-        for (const auto& card_value: cards_array)
-        {
-            addCard(card_value.toObject());
-            added = true;
-        }
-
-        if (added)
-        {
-            m_loaded_cards_type = LoadedCardsType::UserCards;
-            emit sigCardsChanged();
-        }
+        qWarning() << "Failed to open file at path:" << path << ". File does not exist";
+        return false;
     }
-    else
+
+    if (!load_file.open(QIODevice::ReadOnly))
     {
-        qWarning() << "Couldn't open load file:" << load_file.fileName();
-
-        m_lektion_num = 1 + getRandomIndex();
-        reloadLektion(m_lektion_num);
+        qWarning() << "Failed to open file at path:" << path << "." << load_file.errorString();
+        return false;
     }
+
+    QByteArray save_data = load_file.readAll();
+    QJsonDocument load_doc(QJsonDocument::fromJson(save_data));
+
+    m_cards.clear();
+
+    QJsonArray cards_array = load_doc["cards"].toArray();
+
+    bool added = false;
+
+    for (const auto& card_value: cards_array)
+    {
+        addCard(card_value.toObject());
+        added = true;
+    }
+
+    if (added)
+    {
+        m_loaded_cards_type = LoadedCardsType::UserCards;
+        emit sigCardsChanged();
+    }
+
+    return true;
 }
 
 QString CardsModel::copyToImgFolder(const QString& source, const QString& destination) const
 {
     QFile source_file(removeFilePrefix(source));
-
-    QString full_destination;
 
     QString dir_destination = removeFilePrefix(destination) + getImgFolder();
 
@@ -190,13 +200,13 @@ QString CardsModel::copyToImgFolder(const QString& source, const QString& destin
         if (!dir.mkpath("."))
         {
             qWarning() << "Failed to create directory: " << dir_destination;
-            return full_destination;
+            return dir_destination;
         }
     }
 
     const QFileInfo info(source_file);
 
-    full_destination = dir_destination + info.fileName();
+    QString full_destination = dir_destination + info.fileName();
 
     if (source_file.copy(full_destination))
         qDebug() << "File copied successfully.";
@@ -238,38 +248,39 @@ QString CardsModel::getPartOfSpeech(int row) const
 
 int CardsModel::getShowingCount(int row) const
 {
-    return data(index(row), InfoRoles::ShowingCount).toInt();
+    return data(index(row), InfoRoles::Showing).toInt();
 }
 
 void CardsModel::increaseShowingCount(int row)
 {
-    increaseValue(index(row), InfoRoles::ShowingCount);
+    increaseValue(index(row), InfoRoles::Showing);
 }
 
 int CardsModel::getCorrectlyCount(int row) const
 {
-    return data(index(row), InfoRoles::CorrectlyCount).toInt();
+    return data(index(row), InfoRoles::Correctly).toInt();
 }
 
 void CardsModel::increaseCorrectlyCount(int row)
 {
-    increaseValue(index(row), InfoRoles::CorrectlyCount);
+    increaseValue(index(row), InfoRoles::Correctly);
 }
 
 int CardsModel::getIncorrectCount(int row) const
 {
-    return data(index(row), InfoRoles::IncorrectCount).toInt();
+    return data(index(row), InfoRoles::Incorrect).toInt();
 }
 
 void CardsModel::increaseIncorrectCount(int row)
 {
-    increaseValue(index(row), InfoRoles::IncorrectCount);
+    increaseValue(index(row), InfoRoles::Incorrect);
 }
 
 CardsModel::CardsModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_loaded_cards_type(LoadedCardsType::None)
     , m_lektion_num(-1)
+    , m_max_lektion_idx(5)
 {}
 
 CardsModel::~CardsModel()
@@ -296,14 +307,14 @@ QVariant CardsModel::data(const QModelIndex& index, int role) const
         return card.text_ru;
     else if (role == TextDe)
         return card.text_de;
-    else if (role == ShowingCount)
-        return card.showing_count;
+    else if (role == Showing)
+        return card.showing;
     else if (role == PartOfSpeech)
         return card.part_of_speech;
-    else if (role == CorrectlyCount)
-        return card.correctly_count;
-    else if (role == IncorrectCount)
-        return card.incorrect_count;
+    else if (role == Correctly)
+        return card.correctly;
+    else if (role == Incorrect)
+        return card.incorrect;
 
     return QVariant();
 }
@@ -312,9 +323,9 @@ void CardsModel::addCard(const QJsonObject& card)
 {
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
     m_cards.append({card.value("id").toInt(),
-                    card.value("showing_count").toInt(),
-                    card.value("correctly_count").toInt(),
-                    card.value("incorrect_count").toInt(),
+                    card.value("showing").toInt(),
+                    card.value("correctly").toInt(),
+                    card.value("incorrect").toInt(),
                     card.value("img_source").toString(),
                     card.value("text_ru").toString(),
                     card.value("text_de").toString(),
@@ -331,9 +342,9 @@ QHash<int, QByteArray> CardsModel::roleNames() const
     roles[TextRu] = "text_ru";
     roles[TextDe] = "text_de";
     roles[PartOfSpeech] = "part_of_speech";
-    roles[ShowingCount] = "showing_count";
-    roles[CorrectlyCount] = "correctly_count";
-    roles[IncorrectCount] = "incorrect_count";
+    roles[Showing] = "showing";
+    roles[Correctly] = "correctly";
+    roles[Incorrect] = "incorrect";
 
     return roles;
 }
@@ -403,12 +414,12 @@ void CardsModel::increaseValue(const QModelIndex& index, int role)
 
     WordCard& card = m_cards[index.row()];
 
-    if (role == ShowingCount)
-        ++card.showing_count;
-    else if (role == CorrectlyCount)
-        ++card.correctly_count;
-    else if (role == IncorrectCount)
-        ++card.incorrect_count;
+    if (role == Showing)
+        ++card.showing;
+    else if (role == Correctly)
+        ++card.correctly;
+    else if (role == Incorrect)
+        ++card.incorrect;
 }
 
 } // ns classbook

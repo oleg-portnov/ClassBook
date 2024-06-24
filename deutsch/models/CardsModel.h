@@ -25,22 +25,23 @@ public:
         Image,
         TextRu,
         TextDe,
-        ShowingCount,
+        Showing,
         PartOfSpeech,
-        CorrectlyCount,
-        IncorrectCount
+        Correctly,
+        Incorrect
     }; // InfoRoles
 
 public:
     Q_INVOKABLE int getRandomIndex() const;
 
-    Q_INVOKABLE void setLection(int lek_num);
+    Q_INVOKABLE void setLection(int lek_idx);
     Q_INVOKABLE void saveLection();
 
     Q_INVOKABLE void loadRandomCards();
+    Q_INVOKABLE void loadFromResource(int lek_idx);
 
     Q_INVOKABLE void saveToFile(const QString& path);
-    Q_INVOKABLE void loadFromFile(const QString& path);
+    Q_INVOKABLE bool loadFromFile(const QString& path);
 
     Q_INVOKABLE QString copyToImgFolder(const QString& source, const QString& destination) const;
 
@@ -98,6 +99,7 @@ private:
     LoadedCardsType m_loaded_cards_type;
 
     int m_lektion_num;
+    int m_max_lektion_idx;
 }; // NetConnModel
 
 } // ns classbook

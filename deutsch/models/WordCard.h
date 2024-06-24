@@ -8,10 +8,10 @@ struct WordCard
 {
     int id;
 
-    int showing_count;
+    int showing;
 
-    int correctly_count;
-    int incorrect_count;
+    int correctly;
+    int incorrect;
 
     QString img_source;
 

@@ -41,9 +41,9 @@ Item {
                 id: btn_help
 
                 anchors.right: parent.right
-                anchors.bottom: parent.bottom
-
                 anchors.rightMargin: 9
+
+                anchors.bottom: parent.bottom
                 anchors.bottomMargin: 9
 
                 width: 40
@@ -133,15 +133,17 @@ Item {
 
                     visible: true
 
+                    color: "#6b8e23"
+
+                    radius: 14
+
                     anchors.fill: parent
+
                     anchors.topMargin: 45
                     anchors.bottomMargin: 5
                     anchors.leftMargin: 5
                     anchors.rightMargin: 5
 
-                    color: "#6b8e23"
-
-                    radius: 14
                     border.width: 0
 
                     Text {

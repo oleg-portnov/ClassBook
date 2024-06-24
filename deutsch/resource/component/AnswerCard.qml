@@ -7,10 +7,11 @@ Rectangle {
     signal sigIncorrect()
 
     property bool was_attempt: false
+    property int lr_margins: 40
 
     height: 40
 
-    width: text_item.implicitWidth + 40
+    width: text_item.implicitWidth + lr_margins
 
     z: is_correct_answer ? 1 : 0
 

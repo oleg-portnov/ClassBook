@@ -41,8 +41,6 @@ target_link_libraries(ClassBook
     PRIVATE Qt6::Quick
 )
 
-include(GNUInstallDirs)
-
 install(TARGETS ClassBook
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

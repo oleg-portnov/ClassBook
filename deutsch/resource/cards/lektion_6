@@ -118,6 +118,6 @@
     { "id": 116, "showing": 0, "part": "Funktionswörter", "correctly": 0, "incorrect": 0, "img": "", "text_de": "über", "text_ru": "на, по" },
     { "id": 117, "showing": 0, "part": "Ausdrücke", "correctly": 0, "incorrect": 0, "img": "", "text_de": "ein bisschen", "text_ru": "немножко" },
     { "id": 118, "showing": 0, "part": "Ausdrücke", "correctly": 0, "incorrect": 0, "img": "", "text_de": "Sport treiben", "text_ru": "заниматься спортом" },
-    { "id": 119, "showing": 0, "part": "Ausdrücke", "correctly": 0, "incorrect": 0, "img": "", "text_de": "zum Beispiel", "text_ru": "например" },
+    { "id": 119, "showing": 0, "part": "Ausdrücke", "correctly": 0, "incorrect": 0, "img": "", "text_de": "zum Beispiel", "text_ru": "например" }
   ]
 }
