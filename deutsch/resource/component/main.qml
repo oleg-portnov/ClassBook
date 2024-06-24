@@ -243,6 +243,10 @@ Window {
         Layout.fillHeight: true
         Layout.fillWidth: true
 
+
+        // todo: The selection should take into account the type of part of speech.
+        // todo: Need to create a weight for each word based on the successful/unsuccessful attempts to guess the word and the total number of times the word has been shown.
+        // todo: The randomness should take into account the part of speech and the weight of the word.
         function updateCard () {
             var is_target_language = Math.random() < 0.5
             target_language = is_target_language
