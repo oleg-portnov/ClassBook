@@ -78,7 +78,7 @@ public slots:
     void addCard(const QJsonObject& card);
 
 private:
-    QHash<int, QByteArray> roleNames() const override;
+    QHash<int,QByteArray> roleNames() const override;
 
     void reloadLektion(int lek_num);
 
