@@ -11,25 +11,24 @@ find_package(Qt6 6.7 REQUIRED COMPONENTS Quick)
 qt_standard_project_setup(REQUIRES 6.7)
 
 set(SOURCES
+    main.cpp
     models/CardsModel.cpp
 )
 
 set(HEADERS
-    models/CardsModel.h
     card/WordCard.h
+    models/CardsModel.h
 )
 
-set(RESOURCE
-    resource/component/component.qrc
-    resource/img/img.qrc
-    resource/cards/cards.qrc
+set(RESOURCES
+    resources/component/component.qrc
+    resources/img/img.qrc
+    resources/cards/cards.qrc
 )
 
 qt_add_executable(ClassBook
-    main.cpp
     ${SOURCES}
-    ${HEADERS}
-    ${RESOURCE}
+    ${RESOURCES}
 )
 
 qt_add_qml_module(ClassBook
