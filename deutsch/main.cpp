@@ -6,9 +6,7 @@
 
 int main(int argc, char* argv[])
 {
-    // https://bugreports.qt.io/browse/QTBUG-82617
-    qputenv("QT_ANDROID_NO_EXIT_CALL", "1");
-
+    qputenv("QT_ANDROID_NO_EXIT_CALL", "1");    // https://bugreports.qt.io/browse/QTBUG-82617
     qputenv("QT_ANDROID_DISABLE_ACCESSIBILITY", "1");
 
     QGuiApplication app(argc, argv);
@@ -22,7 +20,7 @@ int main(int argc, char* argv[])
     QSurfaceFormat::setDefaultFormat(format);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
-                     &app,    [](){ QCoreApplication::exit(-1); },
+                     &app,    [](){QCoreApplication::exit(-1);},
                      Qt::QueuedConnection);
 
     qmlRegisterType<classbook::CardsModel>("classbook", 1, 0, "CardsModel");
