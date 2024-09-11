@@ -16,7 +16,7 @@
     { "id": 14, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "packen", "text_ru": "паковать" },
     { "id": 15, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "passieren", "text_ru": "происходить" },
     { "id": 16, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "Rechthaben", "text_ru": "быть правым" },
-    { "id": 17, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "sollen", "text_ru": "быть должным, означающий долженствование" },
+    { "id": 17, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "sollen", "text_ru": "быть должным" },
     { "id": 18, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "stehen", "text_ru": "стоять" },
     { "id": 19, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "tun", "text_ru": "делать, выполнять" },
     { "id": 20, "showing": 0, "part": "Verben", "correctly": 0, "incorrect": 0, "img": "", "text_de": "verstehen", "text_ru": "понимать" },
