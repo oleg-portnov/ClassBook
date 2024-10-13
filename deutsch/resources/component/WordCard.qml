@@ -19,14 +19,10 @@ Item {
 
     property int def_margin: 40
 
-    function getMinWidth() {
-        return tr_text.implicitWidth + def_margin
-    }
+    property int min_width: tr_text.implicitWidth + def_margin
 
-    function getMaxWidth() {
-        return text_help.implicitWidth > tr_text.implicitWidth ? text_help.implicitWidth + def_margin
-                                                               : getMinWidth()
-    }
+    property int max_width: text_help.implicitWidth > tr_text.implicitWidth ? text_help.implicitWidth + def_margin
+                                                                            : min_width
 
     function showHelp() {
         root.state = "help_show"
@@ -118,8 +114,7 @@ Item {
             id: text_br
 
             implicitHeight: 40
-
-            implicitWidth: help_br.visible ? getMaxWidth() : getMinWidth()
+            implicitWidth: help_br.visible ? max_width : min_width
 
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -186,10 +181,10 @@ Item {
             ParallelAnimation {
                 id: to_default_anim
 
-                PropertyAnimation { target: text_br; properties: "implicitHeight"; to: 40;            duration: 100 }
-                PropertyAnimation { target: text_br; properties: "implicitWidth";  to: getMinWidth(); duration: 100 }
-                PropertyAnimation { target: help_br; properties: "opacity";        to: 0.0;           duration: 100 }
-                ColorAnimation    { target: help_br; properties: "color";          to: "#003855";     duration: 100 }
+                PropertyAnimation { target: text_br; properties: "implicitHeight"; to: 40;        duration: 100 }
+                PropertyAnimation { target: text_br; properties: "implicitWidth";  to: min_width; duration: 100 }
+                PropertyAnimation { target: help_br; properties: "opacity";        to: 0.0;       duration: 100 }
+                ColorAnimation    { target: help_br; properties: "color";          to: "#003855"; duration: 100 }
 
                 PropertyAnimation { target: text_help; properties: "opacity"; to: 0.0; duration: 100 }
             }
@@ -200,10 +195,10 @@ Item {
             ParallelAnimation {
                 id: to_pressed_anim
 
-                PropertyAnimation { target: text_br; properties: "implicitHeight"; to: 80;            duration: 300 }
-                PropertyAnimation { target: text_br; properties: "implicitWidth";  to: getMaxWidth(); duration: 300 }
-                PropertyAnimation { target: help_br; properties: "opacity";        to: 1.0;           duration: 300 }
-                ColorAnimation    { target: help_br; properties: "color";          to: "#6b8e23";     duration: 300 }
+                PropertyAnimation { target: text_br; properties: "implicitHeight"; to: 80;        duration: 300 }
+                PropertyAnimation { target: text_br; properties: "implicitWidth";  to: max_width; duration: 300 }
+                PropertyAnimation { target: help_br; properties: "opacity";        to: 1.0;       duration: 300 }
+                ColorAnimation    { target: help_br; properties: "color";          to: "#6b8e23"; duration: 300 }
 
                 PropertyAnimation { target: text_help; properties: "opacity"; to: 1.0; duration: 600 }
             }
