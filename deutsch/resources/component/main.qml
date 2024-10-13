@@ -16,15 +16,6 @@ Window {
 
     color: "#004466"
 
-    function cardUpdated() {
-        ++save_count
-
-        if (save_count === save_count_trig) {
-            cards_model.saveLection()
-            save_count = 0
-        }
-    }
-
     function correctAnswer(index) {
         var item = card_repeater.itemAt(index)
         if (item !== undefined) {
@@ -65,18 +56,8 @@ Window {
         }
     }
 
-    Drawer {
+    SideMenuSelLess {
         id: side_menu
-
-        signal sigLoadLektion(lek_num: int)
-
-        width: parent.width * 0.7
-        height: parent.height
-
-        background: Rectangle {
-            anchors.fill: parent
-            color: "#006663"
-        }
 
         onSigLoadLektion: (lek_num) => {
             cards_model.loadLektion(lek_num)
