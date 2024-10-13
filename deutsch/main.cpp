@@ -23,7 +23,9 @@ int main(int argc, char* argv[])
                      &app,    [](){QCoreApplication::exit(-1);},
                      Qt::QueuedConnection);
 
-    qmlRegisterType<classbook::CardsModel>("classbook", 1, 0, "CardsModel");
+    qmlRegisterType<classbook::Word>("classbook", 1, 0, "Word");
+    qmlRegisterType<classbook::AnswersModel>("classbook", 1, 0, "AnswersModel");
+    qmlRegisterType<classbook::LessonMediator>("classbook", 1, 0, "LessonMediator");
 
     if (QThread* thrd = QThread::currentThread())
         thrd->setObjectName("main_thread");
