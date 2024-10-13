@@ -10,7 +10,9 @@ set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
 add_compile_options(-fno-exceptions)
 add_compile_options(-fno-rtti)
 
-qt_standard_project_setup(REQUIRES 6.7)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Quick)
+
+qt_standard_project_setup(REQUIRES 6.8)
 
 set(SOURCES
     main.cpp
