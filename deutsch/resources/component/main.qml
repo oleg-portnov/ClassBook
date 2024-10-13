@@ -7,34 +7,11 @@ import classbook
 Window {
     id: root_window
 
-    property int save_count: 0
-    property int save_count_trig: 5
-
     property string cur_id: ""
 
     visible: true
 
     color: "#004466"
-
-    function correctAnswer(index) {
-        var item = card_repeater.itemAt(index)
-        if (item !== undefined) {
-            cards_model.increaseCorrectlyCount(cards_model.indexById(cur_id))
-            shake_animation.target = item
-            gradient_animation.target = item
-            good_animation.start()
-        }
-    }
-
-    function incorrectAnswer(index) {
-        var item = card_repeater.itemAt(index)
-        if (item !== undefined) {
-            cards_model.increaseIncorrectCount(cards_model.indexById(cur_id))
-            decrease_animation.target = item
-            to_red_animation.target = item
-            incorrect_animation.start()
-        }
-    }
 
     function updateLayout() {
         if (width < height) {
@@ -60,89 +37,10 @@ Window {
         id: side_menu
 
         onSigLoadLektion: (lek_num) => {
-            cards_model.loadLektion(lek_num)
-            card.updateCard()
-        }
-
-        Button {
-            id: close_side_menu
-
-            x: 10
-            y: 10
-
-            width: 40
-            height: 40
-
-            icon.source: "/img/close.svg"
-
-            background: Rectangle {
-                color: "#5599bb"
-                anchors.fill: parent
-                radius: 14
-            }
-
-            onClicked: side_menu.close()
-        }
-
-        ScrollView {
-            anchors.top: close_side_menu.bottom
-            anchors.topMargin: 18
-
-            anchors.left: parent.left
-            anchors.leftMargin: 9
-
-            anchors.right: parent.right
-            anchors.rightMargin: 9
-
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 9
-
-            contentWidth: width
-
-            ColumnLayout {
-                spacing: 18
-
-                anchors.fill: parent
-
-                Repeater {
-                    model: 6
-
-                    delegate: Button {
-                        text: qsTr("Lektion " + (index + 1))
-
-                        Layout.fillWidth: true
-
-                        implicitHeight: 40
-
-                        background: Rectangle {
-                            color: "#5599bb"
-                            anchors.fill: parent
-                            radius: 14
-                        }
-
-                        onClicked: {
-                            side_menu.close()
-                            side_menu.sigLoadLektion(index)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    CardsModel {
-        id: cards_model
-
-        Component.onCompleted: loadRandomLektion()
-
-        onSigCardsChanged: {
-            card.updateCard()
-            cardUpdated()
-        }
-
-        function loadLektion(lek_num) {
-            setLection(lek_num)
-            card.updateCard()
+            LesMediator.selectLesson(lek_num)
+            flow_view.correct_word_find = false;
+            card.updateState()
+            LesMediator.updateWord()
         }
     }
 
@@ -154,8 +52,9 @@ Window {
         repeat: false
 
         onTriggered: {
-            card.updateCard()
-            cardUpdated()
+            flow_view.correct_word_find = false;
+            card.updateState()
+            LesMediator.updateWord()
         }
     }
 
@@ -178,15 +77,6 @@ Window {
             color: "#5599bb"
             anchors.fill: parent
             radius: 14
-        }
-    }
-
-    ListModel {
-        id: answers_model
-
-        ListElement {
-            element_text: ""
-            is_correct_answer: false
         }
     }
 
@@ -221,57 +111,22 @@ Window {
     WordCard {
         id: card
 
+        Component.onCompleted: LesMediator.init()
+
         Layout.fillHeight: true
         Layout.fillWidth: true
 
+        target_language: !LesMediator.answers_model.need_tr
 
-        // todo: The selection should take into account the type of part of speech.
-        // todo: Need to create a weight for each word based on the successful/unsuccessful attempts to guess the word and the total number of times the word has been shown.
-        // todo: The randomness should take into account the part of speech and the weight of the word.
-        function updateCard () {
-            var is_target_language = Math.random() < 0.5
-            target_language = is_target_language
+        text_de: LesMediator.cur_cord.de_text
+        text_ru: LesMediator.cur_cord.ru_text
 
-            var index = cards_model.getRandomCardIndex()
+        part_of_speech: LesMediator.cur_cord.part_of_speech_text
 
-            cur_id = cards_model.getId(index)
+        show_count: LesMediator.cur_cord.views
 
-            card.text_ru = cards_model.getTextRu(index)
-            card.text_de = cards_model.getTextDe(index)
-
-            card.part_of_speech = cards_model.getPartOfSpeech(index)
-
-            cards_model.increaseShowingCount(index)
-            card.show_count = cards_model.getShowingCount(index)
-            card.correctly_count = cards_model.getCorrectlyCount(index)
-            card.incorrect_count = cards_model.getIncorrectCount(index)
-
-            card.updateState()
-
-            var random_indx = []
-            var random_item_count = Math.floor(Math.random() * 3) + 4
-
-            for (var ii = 0; ii < random_item_count; ii++) {
-                var rndm_index = cards_model.getRandomCardIndex()
-                if (!random_indx.includes(rndm_index) && rndm_index !== index) {
-                    random_indx.push(rndm_index)
-                }
-            }
-
-            answers_model.clear()
-
-            for (var jj = 0; jj < random_indx.length; jj++) {
-                var randomIndex = random_indx[jj]
-                answers_model.append({element_text: is_target_language ? cards_model.getTextRu(randomIndex)
-                                                                       : cards_model.getTextDe(randomIndex),
-                                      is_correct_answer: false})
-            }
-
-            var random_insert_indx = Math.floor(Math.random() * (answers_model.count + 1))
-            answers_model.insert(random_insert_indx, {element_text: is_target_language ? cards_model.getTextRu(index)
-                                                                                       : cards_model.getTextDe(index),
-                                                      is_correct_answer: true})
-        }
+        correctly_count: LesMediator.cur_cord.correct
+        incorrect_count: LesMediator.cur_cord.incorrect
     }
 
     Rectangle {
@@ -290,6 +145,8 @@ Window {
         Flow {
             id: flow_view
 
+            property bool correct_word_find: false
+
             spacing: 9
 
             width: parent.width * 0.8
@@ -300,76 +157,20 @@ Window {
             Repeater {
                 id: card_repeater
 
-                model: answers_model
+                model: LesMediator.answers_model
 
                 AnswerCard {
+                    answer_text: display
+                    is_correct_answer: is_correct
+
                     onSigCorrect: {
-                        correctAnswer(index)
+                        LesMediator.userGuessed()
                         timer_update_card.start()
                     }
 
-                    onSigIncorrect: incorrectAnswer(index)
+                    onSigIncorrect: LesMediator.userNotGuess()
                 }
             }
-        }
-    }
-
-    ParallelAnimation {
-        id: good_animation
-
-        PropertyAnimation {
-            id: shake_animation
-
-            property: "scale"
-
-            from: 1.0
-            to: 1.1
-
-            duration: 300
-            easing.type: Easing.InOutBack
-            loops: 2
-        }
-
-        PropertyAnimation {
-            id: gradient_animation
-
-            property: "color"
-
-            easing.type: Easing.Linear
-
-            duration: 300
-
-            from: "#1c77a4"
-            to: "#00997f"
-        }
-    }
-
-    ParallelAnimation {
-        id: incorrect_animation
-
-        PropertyAnimation {
-            id: decrease_animation
-
-            property: "scale"
-
-            from: 1.0
-            to: 0.8
-
-            duration: 300
-            easing.type: Easing.InOutBack
-        }
-
-        PropertyAnimation {
-            id: to_red_animation
-
-            property: "color"
-
-            easing.type: Easing.Linear
-
-            duration: 300
-
-            from: "#1c77a4"
-            to: "#b33a00"
         }
     }
 }
