@@ -16,11 +16,12 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine engine;
 
-    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::VulkanRhi);
 
-    QSurfaceFormat format = QSurfaceFormat::defaultFormat();
-    format.setSamples(4);
-    QSurfaceFormat::setDefaultFormat(format);
+    // QSurfaceFormat format = QSurfaceFormat::defaultFormat();
+    // format.setSamples(16);
+    // format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
+    // QSurfaceFormat::setDefaultFormat(format);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
                      &app,    [](){QCoreApplication::exit(-1);},
