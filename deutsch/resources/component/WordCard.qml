@@ -33,7 +33,8 @@ Item {
     }
 
     function updateState() {
-        hideHelp()
+        if (root.state === "help_show")
+            hideHelp()
     }
 
     state: "help_hide"
