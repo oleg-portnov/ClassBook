@@ -16,22 +16,32 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 set(SOURCES
     main.cpp
-    models/CardsModel.cpp
+    card/Word.cpp
+    mediators/LessonMediator.cpp
+    models/AnswersModel.cpp
+    models/CardStore.cpp
 )
 
 set(HEADERS
-    card/WordCard.h
-    models/CardsModel.h
+    card/LessonFwd.h
+    card/PartOfSpeechFwd.h
+    card/Word.h
+    card/WordFwd.h
+    common/utils.h
+    mediators/LessonMediator.h
+    models/AnswersModel.h
+    models/CardStore.h
 )
 
 set(RESOURCES
+    resources/cards/cards.qrc
     resources/component/component.qrc
     resources/img/img.qrc
-    resources/cards/cards.qrc
 )
 
 qt_add_executable(ClassBook
     ${SOURCES}
+    ${HEADERS}
     ${RESOURCES}
 )
 
