@@ -14,7 +14,7 @@ Word::Word(const QJsonObject& data)
     , m_part_of_speech(fromString(data.value("part_of_speech").toString()))
 {}
 
-Word::Word(Word &&other)
+Word::Word(Word&& other)
     : QObject(other.parent())
     , m_id(other.m_id)
     , m_views(other.m_views)
@@ -84,15 +84,27 @@ int Word::getDifficulty() const
     return std::ceil(m_views / m_correct) * m_incorrect;
 }
 
+void Word::show()
+{
+    ++m_views;
+    emit sigViewsChanged();
+}
+
+void Word::guessed()
+{
+    ++m_correct;
+    emit sigCorrectChanged();
+}
+
+void Word::notGuess()
+{
+    ++m_incorrect;
+    emit sigIncorrectChanged();
+}
+
 int Word::getViews() const
 {
     return m_views;
-}
-
-void Word::setViews(int new_views)
-{
-    m_views = new_views;
-    emit sigViewsChanged();
 }
 
 int Word::getCorrect() const
@@ -100,21 +112,9 @@ int Word::getCorrect() const
     return m_correct;
 }
 
-void Word::setCorrect(int new_value)
-{
-    m_correct = new_value;
-    emit sigCorrectChanged();
-}
-
 int Word::getIncorrect() const
 {
     return m_incorrect;
-}
-
-void Word::setIncorrect(int new_value)
-{
-    m_incorrect = new_value;
-    emit sigIncorrectChanged();
 }
 
 QString Word::getDeText() const
@@ -122,21 +122,9 @@ QString Word::getDeText() const
     return m_de_text;
 }
 
-void Word::setDeText(const QString& new_de_text)
-{
-    m_de_text = new_de_text;
-    emit sigDeTextChanged();
-}
-
 QString Word::getRuText() const
 {
     return m_ru_text;
-}
-
-void Word::setRuText(const QString& new_ru_text)
-{
-    m_ru_text = new_ru_text;
-    emit sigRuTextChanged();
 }
 
 QString Word::getPartOfSpeechText() const
@@ -147,12 +135,6 @@ QString Word::getPartOfSpeechText() const
 Word::PartOfSpeech Word::getPartOfSpeech() const
 {
     return m_part_of_speech;
-}
-
-void Word::setPartOfSpeech(const PartOfSpeech& new_part_of_speech)
-{
-    m_part_of_speech = new_part_of_speech;
-    emit sigPartOfSpeechChanged();
 }
 
 } // ns classbook

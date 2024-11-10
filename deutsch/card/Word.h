@@ -21,22 +21,24 @@ public:
 
     Q_PROPERTY(int id MEMBER m_id)
 
-    Q_PROPERTY(int views     READ getViews     WRITE setViews     NOTIFY sigViewsChanged)
+    Q_PROPERTY(int views READ getViews NOTIFY sigViewsChanged)
 
-    Q_PROPERTY(int correct   READ getCorrect   WRITE setCorrect   NOTIFY sigCorrectChanged)
-    Q_PROPERTY(int incorrect READ getIncorrect WRITE setIncorrect NOTIFY sigIncorrectChanged)
+    Q_PROPERTY(int correct   READ getCorrect   NOTIFY sigCorrectChanged)
+    Q_PROPERTY(int incorrect READ getIncorrect NOTIFY sigIncorrectChanged)
 
-    Q_PROPERTY(QString de_text READ getDeText WRITE setDeText NOTIFY sigDeTextChanged)
-    Q_PROPERTY(QString ru_text READ getRuText WRITE setRuText NOTIFY sigRuTextChanged)
+    Q_PROPERTY(QString de_text READ getDeText CONSTANT)
+    Q_PROPERTY(QString ru_text READ getRuText CONSTANT)
 
-    Q_PROPERTY(QString part_of_speech_text READ getPartOfSpeechText NOTIFY sigPartOfSpeechTextChanged)
+    Q_PROPERTY(QString part_of_speech_text READ getPartOfSpeechText CONSTANT)
 
-    Q_PROPERTY(PartOfSpeech part_of_speech READ getPartOfSpeech WRITE setPartOfSpeech NOTIFY sigPartOfSpeechChanged)
+    Q_PROPERTY(PartOfSpeech part_of_speech READ getPartOfSpeech CONSTANT)
 
 public:
     explicit Word(const QJsonObject& data);
     explicit Word(Word&& other);
     virtual ~Word();
+
+    Word& operator= (const Word& other) = delete;
 
 public:
     bool operator!= (const Word& other) const;
@@ -46,44 +48,34 @@ public:
 
     Word& operator= (Word&& other);
 
-    Word& operator= (const Word& other) = delete;
-
 public:
     int getDifficulty() const;
 
+    void show();
+
+    void guessed();
+    void notGuess();
+
 public slots:
     int getViews() const;
-    void setViews(int new_views);
 
     int getCorrect() const;
-    void setCorrect(int new_value);
 
     int getIncorrect() const;
-    void setIncorrect(int new_value);
 
     QString getDeText() const;
-    void setDeText(const QString& new_de_text);
 
     QString getRuText() const;
-    void setRuText(const QString& new_ru_text);
 
     QString getPartOfSpeechText() const;
 
     PartOfSpeech getPartOfSpeech() const;
-    void setPartOfSpeech(const PartOfSpeech& new_part_of_speech);
 
 signals:
     void sigViewsChanged();
 
     void sigCorrectChanged();
     void sigIncorrectChanged();
-
-    void sigDeTextChanged();
-    void sigRuTextChanged();
-
-    void sigPartOfSpeechTextChanged();
-
-    void sigPartOfSpeechChanged();
 
 private:
     int m_id;
