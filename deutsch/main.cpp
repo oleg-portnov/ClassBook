@@ -12,12 +12,7 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine engine;
 
-    QQuickWindow::setGraphicsApi(QSGRendererInterface::VulkanRhi);
-
-    // QSurfaceFormat format = QSurfaceFormat::defaultFormat();
-    // format.setSamples(16);
-    // format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
-    // QSurfaceFormat::setDefaultFormat(format);
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
                      &app,    [](){QCoreApplication::exit(EXIT_FAILURE);},
