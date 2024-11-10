@@ -3,8 +3,6 @@
 #include "card/WordFwd.h"
 #include "card/LessonFwd.h"
 
-#include <QString>
-
 namespace classbook {
 
 class CardStore

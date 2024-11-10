@@ -1,13 +1,4 @@
-#include <QThread>
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-#include <QtQuick/QQuickView>
-#include <QQmlContext>
-
-#include "card/Word.h"
 #include "mediators/LessonMediator.h"
-#include "models/AnswersModel.h"
-#include "models/CardStore.h"
 
 int main(int argc, char* argv[])
 {

@@ -45,6 +45,8 @@ qt_add_executable(ClassBook
     ${RESOURCES}
 )
 
+target_precompile_headers(ClassBook PRIVATE ${CMAKE_SOURCE_DIR}/pch.h)
+
 qt_add_qml_module(ClassBook
     URI deutsch
     VERSION 1.0

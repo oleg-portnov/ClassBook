@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QObject>
+#include "common/utils.h"
 
 namespace classbook {
 

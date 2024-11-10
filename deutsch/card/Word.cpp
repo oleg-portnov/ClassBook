@@ -1,7 +1,5 @@
 #include "Word.h"
 
-#include <QJsonObject>
-
 #include "PartOfSpeechFwd.h"
 
 namespace classbook {

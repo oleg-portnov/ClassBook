@@ -1,15 +1,5 @@
 #include "CardStore.h"
 
-#include <QDir>
-#include <QFile>
-#include <QDebug>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonObject>
-#include <QStandardPaths>
-#include <QRandomGenerator>
-#include <QSaveFile>
-
 #include "card/Word.h"
 #include "common/utils.h"
 

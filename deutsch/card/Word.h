@@ -1,7 +1,5 @@
 #pragma once
 
-#include <QObject>
-
 namespace classbook {
 
 class Word : public QObject
