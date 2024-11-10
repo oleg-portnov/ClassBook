@@ -1,7 +1,5 @@
 #pragma once
 
-#include <QAbstractListModel>
-
 #include "card/WordFwd.h"
 
 namespace classbook {
@@ -11,10 +9,14 @@ class AnswersModel : public QAbstractListModel
     Q_OBJECT
 
     enum RoleType {
-        IsCorrect = Qt::DisplayRole + 1
+        IsCorrect = Qt::DisplayRole + 1,
+        DispText
     }; // Type
 
     Q_PROPERTY(bool need_tr READ getNeedTr WRITE setNeedTr NOTIFY sigNeedTrChanged)
+
+    using p_word = const Word*;
+    using words_data = std::vector<p_word>;
 
 public:
     explicit AnswersModel(QObject* parent = nullptr);
@@ -24,9 +26,9 @@ public:
     bool getNeedTr() const;
     void setNeedTr(bool need_tr);
 
-    void setCorrectAnswer(const Word* correct_word);
+    void setCorrectAnswer(p_word correct_word);
 
-    void setNewData(const std::vector<const Word*>& new_data);
+    void setNewData(const words_data& new_data);
 
 public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -37,9 +39,9 @@ signals:
     void sigNeedTrChanged();
 
 private:
-    const Word* m_correct_word;
-    std::vector<const Word*> m_ans_words;
     bool m_need_tr;
+    p_word m_correct_word;
+    words_data m_ans_words;
 }; // AnswersModel
 
 } // ns classbook

@@ -160,7 +160,7 @@ Window {
                 model: LesMediator.answers_model
 
                 AnswerCard {
-                    answer_text: display
+                    answer_text: displayed_text
                     is_correct_answer: is_correct
 
                     onSigCorrect: {

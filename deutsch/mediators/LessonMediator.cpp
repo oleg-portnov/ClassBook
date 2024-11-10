@@ -3,32 +3,25 @@
 #include "card/Word.h"
 #include "models/CardStore.h"
 
-#include <QDebug>
-#include <QRandomGenerator>
-
-#include <ranges>
-#include <algorithm>
-
 namespace classbook {
 
 LessonMediator::LessonMediator()
-    : SAVE_AFTER(4)
-    , m_change_count(0)
-    , m_ans_model(nullptr)
+    : m_change_count(0)
+    , m_card_store(std::make_unique<CardStore>())
+    , m_ans_model(std::make_unique<AnswersModel>())
     , m_cur_word(nullptr)
-{}
+{
+    qmlRegisterType<classbook::Word>("classbook", 1, 0, "Word");
+    qmlRegisterType<classbook::AnswersModel>("classbook", 1, 0, "AnswersModel");
+    qmlRegisterType<classbook::LessonMediator>("classbook", 1, 0, "LessonMediator");
+}
 
 LessonMediator::~LessonMediator()
 {}
 
-void LessonMediator::setCardStore(std::shared_ptr<CardStore> card_store)
-{
-    m_card_store = card_store;
-}
-
 AnswersModel* LessonMediator::getAnswersModel()
 {
-    return m_ans_model;
+    return m_ans_model.get();
 }
 
 Word* LessonMediator::getWord()
@@ -39,36 +32,30 @@ Word* LessonMediator::getWord()
 void LessonMediator::init()
 {
     loadAllCard();
-    initAnswersModel();
     setRandomWord();
 }
 
 void LessonMediator::updateWord()
 {
-    setRandomWord();
     ++m_change_count;
     checkSave();
+
+    setRandomWord();
 }
 
 void LessonMediator::userGuessed()
 {
-    m_cur_word->setCorrect(m_cur_word->getCorrect() + 1);   // todo hide
+    m_cur_word->guessed();
 }
 
 void LessonMediator::userNotGuess()
 {
-    m_cur_word->setIncorrect(m_cur_word->getIncorrect() + 1);   // todo hide
+    m_cur_word->notGuess();
 }
 
 void LessonMediator::selectLesson(int cur_less_idx)
 {
     m_card_store->setLessNum(static_cast<Less>(cur_less_idx + 1));
-}
-
-void LessonMediator::initAnswersModel()
-{
-    m_ans_model = new AnswersModel;
-    emit sigAnswersModelChanged();
 }
 
 void LessonMediator::loadAllCard()
@@ -80,6 +67,10 @@ void LessonMediator::loadAllCard()
 void LessonMediator::setRandomWord()
 {
     m_cur_word = m_card_store->getNewWord();
+    assert(m_cur_word);
+    if (!m_cur_word)
+        return;
+    m_cur_word->show();
     selectBestAnswers();
     emit sigWordChanged();
 }
