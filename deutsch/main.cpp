@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     // QSurfaceFormat::setDefaultFormat(format);
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
-                     &app,    [](){QCoreApplication::exit(-1);},
+                     &app,    [](){QCoreApplication::exit(EXIT_FAILURE);},
                      Qt::QueuedConnection);
 
     classbook::LessonMediator mediator;
