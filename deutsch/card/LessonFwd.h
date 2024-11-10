@@ -5,7 +5,7 @@
 namespace classbook {
 
 enum class Less : int {
-    Null = 0,
+    Null = -1,
     Less_1,
     Less_2,
     Less_3,
@@ -17,5 +17,18 @@ enum class Less : int {
     Less_9,
     Less_10
 }; // Less
+
+inline int toNumber(const Less& lesson_num)
+{
+    return toUType(lesson_num) + 1;
+}
+
+inline Less toLesson(int value)
+{
+    const bool is_valid = value >= toNumber(Less::Null) && value <= toNumber(Less::Less_10);
+
+    return is_valid ? static_cast<Less>(value)
+                    : Less::Null;
+}
 
 } // ns classbook

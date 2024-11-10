@@ -29,19 +29,14 @@ void CardStore::save()
         m_show_less.sort();
         m_show_less.unique();
 
-        for (int less: m_show_less)
-        {
-            int less_index = less - 1;
-            Less lesson = static_cast<Less>(less);
-            saveLection(getLesson(less_index), lesson);
-        }
+        for (int lesson_indx: m_show_less)
+            saveLection(getLesson(lesson_indx), toLesson(lesson_indx));
 
         m_show_less.clear();
     }
     else
     {
-        int less_index = static_cast<int>(m_cur_less) - 1;
-        saveLection(getLesson(static_cast<int>(less_index)), m_cur_less);
+        saveLection(getLesson(toNumber(m_cur_less)), m_cur_less);
     }
 }
 
@@ -78,22 +73,19 @@ void CardStore::setLessNum(Less cur_less)
 
 Word* CardStore::getNewWord()
 {
-    bool is_random = m_cur_less == Less::Null;
-    int random_num = is_random ? QRandomGenerator::global()->bounded(static_cast<int>(m_lessons.size()))
-                               : toUType(m_cur_less);
+    const bool is_random = m_cur_less == Less::Null;
+
+    const int lessons_indices = m_lessons.size() - 1;
+    const int random_idx = is_random ? QRandomGenerator::global()->bounded(lessons_indices)
+                                     : toUType(m_cur_less);
 
     if (is_random)
-        m_show_less.emplace_back(random_num);
-
-    int random_idx = random_num - 1;
+        m_show_less.emplace_back(random_idx);
 
     LessonWords* lesson = getLesson(random_idx);
 
     if (lesson && !lesson->empty())
-    {
-        int random_word_index = QRandomGenerator::global()->bounded(static_cast<int>(lesson->size() - 1));
-        return &((*lesson)[random_word_index]);
-    }
+        return &((*lesson)[QRandomGenerator::global()->bounded(lessons_indices)]);
 
     return nullptr;
 }
@@ -217,12 +209,12 @@ bool CardStore::saveLection(const LessonWords* lesson, const Less& lesson_num)
 
 QString CardStore::getFilePatchInFS(const Less& lesson_num)
 {
-    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + QString("lektion_%1").arg(toUType(lesson_num));
+    return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + QString("lektion_%1").arg(toNumber(lesson_num));
 }
 
 QString CardStore::getFilePatchInResource(const Less& lesson_num)
 {
-    return QString(":/cards/lektion_%1").arg(toUType(lesson_num));
+    return QString(":/cards/lektion_%1").arg(toNumber(lesson_num));
 }
 
 } // ns classbook
