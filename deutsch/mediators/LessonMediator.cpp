@@ -86,43 +86,32 @@ void LessonMediator::setRandomWord()
 
 void LessonMediator::selectBestAnswers()
 {
+    assert(m_cur_word);
     if (!m_cur_word)
         return;
 
     auto all_same_part_of_speech = m_card_store->getAllLesson()
                                    | std::views::join
-                                   | std::views::filter([this](const Word& word){return m_cur_word->getPartOfSpeech() == word.getPartOfSpeech();})
+                                   | std::views::filter([&](const Word& word){return m_cur_word->getPartOfSpeech() == word.getPartOfSpeech();})
                                    | std::views::transform([](const Word& word){return &word;});
 
-    std::vector<const Word*> same_word_ptr(all_same_part_of_speech.begin(), all_same_part_of_speech.end());
+    if (all_same_part_of_speech.empty())
+        return;
 
-    std::ranges::sort(same_word_ptr);
+    std::vector<const Word*> words_ptr(all_same_part_of_speech.begin(), all_same_part_of_speech.end());
 
-    if (std::ranges::distance(all_same_part_of_speech) > 5)
-        same_word_ptr.reserve(5);
+    auto* gen = QRandomGenerator::global();
+    std::ranges::shuffle(words_ptr, *gen);
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    const int num_elements = gen->bounded(MIN_WORD_COUNT, std::min<int>(words_ptr.size(), MAX_WORD_COUNT));
 
-    std::ranges::shuffle(same_word_ptr, gen);
+    words_ptr.resize(num_elements);
+    words_ptr.emplace_back(m_cur_word);
 
-    if (same_word_ptr.size() >= 3)
-    {
-        int num_elements = QRandomGenerator::global()->bounded(3, (int)(same_word_ptr.size() <= 5 ? same_word_ptr.size() : 5));
+    std::ranges::shuffle(words_ptr, *gen);
 
-        auto limited_view = same_word_ptr | std::views::take(num_elements);
-
-        std::vector<const Word*> selected_words(limited_view.begin(), limited_view.end());
-
-        selected_words.emplace_back(m_cur_word);
-
-        std::ranges::shuffle(selected_words, gen);
-
-        m_ans_model->setNewData(selected_words);
-        m_ans_model->setCorrectAnswer(m_cur_word);
-
-        m_cur_word->setViews(m_cur_word->getViews() + 1);   // todo hide
-    }
+    m_ans_model->setNewData(words_ptr);
+    m_ans_model->setCorrectAnswer(m_cur_word);
 }
 
 void LessonMediator::checkSave()
