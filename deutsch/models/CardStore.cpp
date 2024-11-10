@@ -190,14 +190,9 @@ bool CardStore::saveLection(const LessonWords* lesson, const Less& lesson_num)
         save_file.write(jdoc.toJson());
 
         if (save_file.commit())
-        {
-            qInfo() << "File saved successfully:" << save_file.fileName();
             return true;
-        }
         else
-        {
             qWarning() << "Failed to save file:" << save_file.errorString();
-        }
     }
     else
     {
