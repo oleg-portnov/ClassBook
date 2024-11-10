@@ -65,7 +65,7 @@
     { "id": 63, "showing": 0, "part": "Adjektive", "correctly": 0, "incorrect": 0, "text_de": "offiziell", "text_ru": "официальный" },
     { "id": 64, "showing": 0, "part": "Adjektive", "correctly": 0, "incorrect": 0, "text_de": "tief", "text_ru": "глубокий" },
     { "id": 65, "showing": 0, "part": "Adverbien", "correctly": 0, "incorrect": 0, "text_de": "damals", "text_ru": "тогда" },
-    { "id": 66, "showing": 0, "part": "Adverbien", "correctly": 0, "incorrect": 0, "text_de": "daher", "text_ru": "поэтому" },
+    { "id": 66, "showing": 0, "part": "Adverbien", "correctly": 0, "incorrect": 0, "text_de": "daher", "text_ru": "поэтому(оттуда)" },
     { "id": 67, "showing": 0, "part": "Funktionswort", "correctly": 0, "incorrect": 0, "text_de": "darin", "text_ru": "в этом" },
     { "id": 68, "showing": 0, "part": "Ausdrücke", "correctly": 0, "incorrect": 0, "text_de": "Passen Sie auf!", "text_ru": "Будьте осторожны!" },
     { "id": 69, "showing": 0, "part": "Ausdrücke", "correctly": 0, "incorrect": 0, "text_de": "das erste Mal", "text_ru": "впервые" }
