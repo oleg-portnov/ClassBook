@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/component">
-        <file>main.qml</file>
-        <file>AnswerCard.qml</file>
-        <file>WordCard.qml</file>
-        <file>SideMenuSelLess.qml</file>
-    </qresource>
-</RCC>

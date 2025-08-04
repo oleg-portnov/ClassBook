@@ -1,28 +1,31 @@
-#include "mediators/LessonMediator.h"
+#include "pch.h"
+
+#include "core/common/include/EnvironmentManager.h"
+#include "core/common/include/Application.h"
+#include "core/common/include/ApplicationStyle.h"
 
 int main(int argc, char* argv[])
 {
-#if defined(Q_OS_ANDROID)
-    qputenv("QT_ANDROID_NO_EXIT_CALL", "1");
-    qputenv("QT_ANDROID_DISABLE_ACCESSIBILITY", "1");
-    qputenv("QT_NO_JAVA_STYLE_ITERATORS", "1");
-#endif
+    auto envManager = core::EnvironmentManager::Create();
+    envManager->SetEnvironmentVariables();
 
     QGuiApplication app(argc, argv);
 
+    auto appStyle = core::ApplicationStyle::Create();
+    appStyle->ApplyStyle();
+
     QQmlApplicationEngine engine;
 
-    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+    auto application = core::Application::Create(engine);
+    application->SetGraphicsApi();
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
                      &app,    [](){QCoreApplication::exit(EXIT_FAILURE);},
                      Qt::QueuedConnection);
 
-    classbook::LessonMediator mediator;
+    application->SetImportPath();
 
-    engine.rootContext()->setContextProperty("LesMediator", &mediator);
-
-    engine.load(QUrl("qrc:/component/main.qml"));
+    application->LoadMain();
 
     return app.exec();
 }

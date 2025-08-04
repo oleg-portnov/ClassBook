@@ -1,6 +1,4 @@
 deutsch/CMakeLists.txt.user
-deutsch/android/gradle
-deutsch/android/gradle.properties
-deutsch/android/gradlew
-deutsch/android/gradlew.bat
-deutsch/android/build.gradle
+deutsch/build/
+deutsch/android/
+deutsch/native/

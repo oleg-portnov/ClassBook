@@ -1,0 +1,39 @@
+cmake_minimum_required(VERSION 3.25.1)
+
+set(LIB_NAME CommonUtils)
+
+project(${LIB_NAME}
+        DESCRIPTION "The library contains small helper functions"
+        LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_COMPILE_WARNING_AS_ERROR ON)
+
+# set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+# set(CMAKE_VISIBILITY_INLINES_HIDDEN ON)
+
+set(HEADERS
+    include/utils.hpp
+)
+
+add_library(${LIB_NAME} SHARED
+    ${HEADERS}
+)
+
+target_include_directories(${LIB_NAME}
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+install(TARGETS ${LIB_NAME}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(FILES ${HEADERS}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/${LIB_NAME}
+)
+
+# target_precompile_headers(${LIB_NAME} PRIVATE pch.h)
