@@ -28,7 +28,7 @@ Button {
         leftPadding: 4
         rightPadding: 4
 
-        text: qsTr("Закрыть программу")
+        text: qsTr("Close program")
 
         color: "white"
         
