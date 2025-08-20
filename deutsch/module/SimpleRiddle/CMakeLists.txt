@@ -23,7 +23,6 @@ set(HEADERS
 )
 
 set(RESOURCES
-    resources/cards/cards.qrc
     resources/cards/lektion_1
     resources/cards/lektion_2
     resources/cards/lektion_3
@@ -48,11 +47,12 @@ list(APPEND MODULE_QML_PRIVATE_FILES
     resources/component/SideMenuSelLess.qml
 )
 
-list(APPEND MODULE_QML_FILES SimpleRiddleMainItem.qml ${MODULE_QML_PRIVATE_FILES}
+list(APPEND MODULE_QML_FILES SimpleRiddleMainItem.qml
+    ${MODULE_QML_PRIVATE_FILES}
 )
 
 set_source_files_properties(${MODULE_QML_PRIVATE_FILES} PROPERTIES
-    QT_QML_INTERNAL_TYPE  TRUE
+    QT_QML_INTERNAL_TYPE TRUE
 )
 
 qt_add_qml_module(${PLUGIN_NAME}
