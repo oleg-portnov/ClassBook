@@ -11,7 +11,7 @@ Button {
     hoverEnabled: true
 
     background: Rectangle {
-        color: root.hovered ? "#e52d2d"
+        color: root.hovered ? "#7a0f0f"
                             : "transparent"
 
         Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.Linear } }
