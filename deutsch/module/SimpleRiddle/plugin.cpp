@@ -12,9 +12,7 @@ public:
     {
         Q_ASSERT(uri == QLatin1String("SimpleRiddle"));
 
-        qmlRegisterSingletonType<LessonMediator>(
-            uri, 1, 0, "LessonMediator",
-            [](QQmlEngine *, QJSEngine *) -> QObject * { return new LessonMediator(); });
+        qmlRegisterSingletonType<LessonMediator>(uri, 1, 0, "LessonMediator", [](QQmlEngine *, QJSEngine *) -> QObject * { return new LessonMediator(); });
 
         // qmlRegisterType<CardStore>(uri, 1, 0, "CardStore");
         // qmlRegisterType<AnswersModel>(uri, 1, 0, "AnswersModel");
