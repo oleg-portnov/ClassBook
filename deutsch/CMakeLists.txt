@@ -98,6 +98,7 @@ elseif(WIN32)
         core/windows/components/MainMenu.qml
         core/windows/components/BtnMainMenu.qml
         core/windows/components/LoadingPage.qml
+        core/windows/components/WindowsCloseBtn.qml
     )
 elseif(UNIX)
     set(PLATFORM_QML_FILES

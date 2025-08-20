@@ -23,6 +23,24 @@ Window {
         }
     }
 
+    HoverHandler {
+        id: hover_hndr
+
+        acceptedDevices: PointerDevice.Mouse
+
+        onPointChanged: {
+            if (header.state === "hidden" && point.position.y <= header.defHeight)
+                header.showHeader()
+            else if (header.state === "shown" && point.position.y >= header.defHeight)
+                header.hideHeader()
+        }
+
+        onHoveredChanged: {
+            if (!hovered)
+                header.hideHeader()
+        }
+    }
+
     Rectangle {
         id: background_rect
 
@@ -35,19 +53,73 @@ Window {
         Rectangle {
             id: header
 
-            height: 32
+            readonly property int defHeight: 32
+            readonly property int defAnimationSpeed: 200
+
+            height: 0
 
             color: header_mouse_area.containsMouse || close_button.hovered ? "#1f5fa0"
                                                                            : "#004466"
 
-            Behavior on color {
-                ColorAnimation { duration: 150; easing.type: Easing.Linear }
+            state: "hidden"
+
+            states: [
+                State {
+                    name: "shown"
+                    PropertyChanges { target: header_mouse_area; enabled: true }
+                },
+                State {
+                    name: "hidden"
+                    PropertyChanges { target: header_mouse_area; enabled: false }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "shown"
+                    to: "hidden"
+
+                    ParallelAnimation {
+
+                        NumberAnimation { target: header; property: "height"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear; }
+                        NumberAnimation { target: header; property: "opacity"; to: 0.0; duration: header.defAnimationSpeed; easing.type: Easing.Linear; }
+                        NumberAnimation { target: header; property: "anchors.topMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "anchors.bottomMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+
+                        NumberAnimation { target: stack_view; property: "anchors.topMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                    }
+                },
+                Transition {
+                    from: "hidden"
+                    to: "shown"
+
+                    ParallelAnimation {
+                        NumberAnimation { target: header; property: "height"; to: header.defHeight; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "opacity"; to: 1.0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "anchors.topMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "anchors.bottomMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+
+                        NumberAnimation { target: stack_view; property: "anchors.topMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                    }
+                }
+            ]
+
+            function showHeader()
+            {
+                state = "shown"
             }
 
-            anchors.top: parent.top
-            anchors.topMargin: 4
+            function hideHeader()
+            {
+                state = "hidden"
+            }
 
-            anchors.bottomMargin: 4
+            Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.Linear } }
+
+            anchors.top: parent.top
+            anchors.topMargin: 0
+
+            anchors.bottomMargin: 0
 
             anchors.left: parent.left
             anchors.leftMargin: 4
@@ -72,12 +144,8 @@ Window {
                 onPressed: root_window.startSystemMove()
             }
 
-            Button {
+            WindowsCloseBtn {
                 id: close_button
-
-                focusPolicy: Qt.ClickFocus
-
-                width: btn_text.contentWidth + btn_text.leftPadding + btn_text.rightPadding
 
                 anchors.top: parent.top
                 anchors.topMargin: 4
@@ -87,42 +155,6 @@ Window {
 
                 anchors.right: parent.right
                 anchors.rightMargin: 4
-
-                hoverEnabled: true
-
-                background: Rectangle {
-                    color: close_button.hovered ? "#e52d2d"
-                                                : "transparent"
-
-                    Behavior on color {
-                        ColorAnimation { duration: 150; easing.type: Easing.Linear }
-                    }
-
-                    radius: 4
-                }
-
-                contentItem: Text {
-                    id: btn_text
-
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-
-                    leftPadding: 4
-                    rightPadding: 4
-
-                    text: qsTr("Закрыть программу")
-
-                    color: "white"
-
-                    opacity: close_button.hovered ? 1.0
-                                                  : 0.0
-
-                    Behavior on opacity {
-                        NumberAnimation { duration: 150; easing.type: Easing.Linear }
-                    }
-                }
-
-                onClicked: Qt.quit()
             }
         }
 
@@ -130,7 +162,7 @@ Window {
             id: stack_view
 
             anchors.top: header.bottom
-            anchors.topMargin: 4
+            anchors.topMargin: 0
 
             anchors.left: parent.left
             anchors.right: parent.right
