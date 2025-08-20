@@ -11,6 +11,8 @@ Rectangle {
 
     color: "#004466"
 
+    radius: 4
+
     function updateLayout() {
         if (width < height) {
             h_lt.visible = false
