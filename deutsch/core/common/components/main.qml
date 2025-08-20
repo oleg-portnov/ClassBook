@@ -63,59 +63,6 @@ Window {
 
             state: "hidden"
 
-            states: [
-                State {
-                    name: "shown"
-                    PropertyChanges { target: header_mouse_area; enabled: true }
-                },
-                State {
-                    name: "hidden"
-                    PropertyChanges { target: header_mouse_area; enabled: false }
-                }
-            ]
-
-            transitions: [
-                Transition {
-                    from: "shown"
-                    to: "hidden"
-
-                    ParallelAnimation {
-
-                        NumberAnimation { target: header; property: "height"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear; }
-                        NumberAnimation { target: header; property: "opacity"; to: 0.0; duration: header.defAnimationSpeed; easing.type: Easing.Linear; }
-                        NumberAnimation { target: header; property: "anchors.topMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-                        NumberAnimation { target: header; property: "anchors.bottomMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-
-                        NumberAnimation { target: stack_view; property: "anchors.topMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-                    }
-                },
-                Transition {
-                    from: "hidden"
-                    to: "shown"
-
-                    ParallelAnimation {
-                        NumberAnimation { target: header; property: "height"; to: header.defHeight; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-                        NumberAnimation { target: header; property: "opacity"; to: 1.0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-                        NumberAnimation { target: header; property: "anchors.topMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-                        NumberAnimation { target: header; property: "anchors.bottomMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-
-                        NumberAnimation { target: stack_view; property: "anchors.topMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
-                    }
-                }
-            ]
-
-            function showHeader()
-            {
-                state = "shown"
-            }
-
-            function hideHeader()
-            {
-                state = "hidden"
-            }
-
-            Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.Linear } }
-
             anchors.top: parent.top
             anchors.topMargin: 0
 
@@ -128,6 +75,18 @@ Window {
             anchors.rightMargin: 4
 
             radius: 4
+
+            function showHeader()
+            {
+                state = "shown"
+            }
+
+            function hideHeader()
+            {
+                state = "hidden"
+            }
+
+            Behavior on color { ColorAnimation { duration: 150; easing.type: Easing.Linear } }
 
             MouseArea {
                 id: header_mouse_area
@@ -156,6 +115,46 @@ Window {
                 anchors.right: parent.right
                 anchors.rightMargin: 4
             }
+
+            states: [
+                State {
+                    name: "shown"
+                    PropertyChanges { target: header_mouse_area; enabled: true }
+                },
+                State {
+                    name: "hidden"
+                    PropertyChanges { target: header_mouse_area; enabled: false }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "shown"
+                    to: "hidden"
+
+                    ParallelAnimation {
+                        NumberAnimation { target: header; property: "height"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear; }
+                        NumberAnimation { target: header; property: "opacity"; to: 0.0; duration: header.defAnimationSpeed; easing.type: Easing.Linear; }
+                        NumberAnimation { target: header; property: "anchors.topMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "anchors.bottomMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+
+                        NumberAnimation { target: stack_view; property: "anchors.topMargin"; to: 0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                    }
+                },
+                Transition {
+                    from: "hidden"
+                    to: "shown"
+
+                    ParallelAnimation {
+                        NumberAnimation { target: header; property: "height"; to: header.defHeight; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "opacity"; to: 1.0; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "anchors.topMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                        NumberAnimation { target: header; property: "anchors.bottomMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+
+                        NumberAnimation { target: stack_view; property: "anchors.topMargin"; to: 4; duration: header.defAnimationSpeed; easing.type: Easing.Linear }
+                    }
+                }
+            ]
         }
 
         StackView {
