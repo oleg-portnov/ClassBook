@@ -49,10 +49,10 @@ signals:
     void sigWordChanged();
 
 private:
-    const int SAVE_AFTER = 10;
+    const int kSaveAfter = 10;
 
-    const int MIN_WORD_COUNT = 4;
-    const int MAX_WORD_COUNT = 8;
+    const int kMinWordCount = 4;
+    const int kMaxWordCount = 8;
 
 private:
     int m_change_count;
