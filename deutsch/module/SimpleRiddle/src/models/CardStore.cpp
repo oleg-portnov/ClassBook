@@ -4,11 +4,11 @@
 
 #include <QDirIterator>
 
-// namespace classbook {
+namespace simple_riddle {
 
 CardStore::CardStore(QObject* parent)
     : QObject(parent)
-    , m_cur_less(Less::Null)
+    , m_cur_less(LessonNumber::Auto)
 {}
 
 CardStore::~CardStore()
@@ -16,7 +16,7 @@ CardStore::~CardStore()
 
 void CardStore::save()
 {
-    if (m_cur_less == Less::Null)
+    if (m_cur_less == LessonNumber::Auto)
     {
         m_show_less.sort();
         m_show_less.unique();
@@ -36,12 +36,12 @@ bool CardStore::loadAllCard()
 {
     bool loaded = true;
 
-    int lesson_num = static_cast<int>(Less::Less_1);
-    int max_lesson_num = static_cast<int>(Less::Less_10);
+    int lesson_num = static_cast<int>(LessonNumber::Less_1);
+    int max_lesson_num = static_cast<int>(LessonNumber::Less_10);
 
     for (; lesson_num <= max_lesson_num; ++lesson_num)
     {
-        Less lesson = static_cast<Less>(lesson_num);
+        LessonNumber lesson = static_cast<LessonNumber>(lesson_num);
 
         loaded = existLessonInFS(lesson) ? loadFromFile(getFilePatchInFS(lesson))
                                          : loadFromFile(getFilePatchInResource(lesson));
@@ -58,14 +58,14 @@ int CardStore::size() const
     return m_lessons.size();
 }
 
-void CardStore::setLessNum(Less cur_less)
+void CardStore::setLessNum(LessonNumber cur_less)
 {
     m_cur_less = cur_less;
 }
 
 Word* CardStore::getNewWord()
 {
-    const bool is_random = m_cur_less == Less::Null;
+    const bool is_random = m_cur_less == LessonNumber::Auto;
 
     const int lessons_indices = m_lessons.size() - 1;
     const int random_idx = is_random ? QRandomGenerator::global()->bounded(lessons_indices)
@@ -96,7 +96,7 @@ LessonWords* CardStore::getLesson(int index)
     return &m_lessons[index];
 }
 
-bool CardStore::existLessonInFS(const Less& lesson_num)
+bool CardStore::existLessonInFS(const LessonNumber& lesson_num)
 {
     return QFile::exists(getFilePatchInFS(lesson_num));
 }
@@ -136,7 +136,7 @@ bool CardStore::loadFromFile(const QString& path)
     return true;
 }
 
-bool CardStore::saveLection(const LessonWords* lesson, const Less& lesson_num)
+bool CardStore::saveLection(const LessonWords* lesson, const LessonNumber& lesson_num)
 {
     QJsonObject json;
 
@@ -195,14 +195,14 @@ bool CardStore::saveLection(const LessonWords* lesson, const Less& lesson_num)
     return false;
 }
 
-QString CardStore::getFilePatchInFS(const Less& lesson_num)
+QString CardStore::getFilePatchInFS(const LessonNumber& lesson_num)
 {
     return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + QString("lektion_%1").arg(toNumber(lesson_num));
 }
 
-QString CardStore::getFilePatchInResource(const Less& lesson_num)
+QString CardStore::getFilePatchInResource(const LessonNumber& lesson_num)
 {
     return QString(":/SimpleRiddle/imports/SimpleRiddle/resources/cards/lektion_%1").arg(toNumber(lesson_num));
 }
 
-// } // ns classbook
+} // ns simple_riddle

@@ -16,21 +16,44 @@ enum class LessonNumber : int {
     Less_7,
     Less_8,
     Less_9,
-    Less_10
+    Less_10,
+    // A2
+    Less_11,
+    Less_12,
+    Less_13,
+    Less_14,
+    Less_15,
+    Less_16,
+    Less_17,
+    Less_18,
+    Less_19,
+    Less_20,
+    // B1
+    Less_21,
+    Less_22,
+    Less_23,
+    Less_24,
+    Less_25,
+    Less_26,
+    Less_27,
+    Less_28,
+    Less_29,
+    Less_30,
 }; // Less
 
-inline int toNumber(const Less& lesson_num)
+inline int toNumber(const LessonNumber& lesson_num)
 {
     return static_cast<int>(lesson_num) + 1;
     // return utils::toUType(lesson_num) + 1;
 }
 
-inline Less toLesson(int value)
+inline LessonNumber toLesson(int lesson_num)
 {
-    const bool is_valid = value >= toNumber(Less::Null) && value <= toNumber(Less::Less_10);
+    const bool isValid = lesson_num >= toNumber(LessonNumber::Auto) &&
+                         lesson_num <= toNumber(LessonNumber::Less_10);
 
-    return is_valid ? static_cast<Less>(value)
-                    : Less::Null;
+    return isValid ? static_cast<LessonNumber>(lesson_num)
+                   : LessonNumber::Auto;
 }
 
 } // ns simple_riddle

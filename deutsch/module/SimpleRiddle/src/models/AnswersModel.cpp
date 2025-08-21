@@ -4,7 +4,7 @@
 
 #include <QRandomGenerator>
 
-// namespace classbook {
+namespace simple_riddle {
 
 AnswersModel::AnswersModel(QObject* parent)
     : QAbstractListModel(parent)
@@ -29,6 +29,7 @@ void AnswersModel::setNeedTr(bool need_tr)
 void AnswersModel::setCorrectAnswer(p_word correct_word)
 {
     assert(correct_word);
+
     m_correct_word = correct_word;
 
     emit dataChanged(index(0),
@@ -80,4 +81,4 @@ QHash<int, QByteArray> AnswersModel::roleNames() const
     return roles;
 }
 
-// } // ns classbook
+} // ns simple_riddle

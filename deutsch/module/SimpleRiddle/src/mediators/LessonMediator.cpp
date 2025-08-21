@@ -3,7 +3,7 @@
 #include "include/card/Word.h"
 #include "include/models/CardStore.h"
 
-// namespace classbook {
+namespace simple_riddle {
 
 LessonMediator::LessonMediator()
     : m_change_count(0)
@@ -55,7 +55,7 @@ void LessonMediator::userNotGuess()
 
 void LessonMediator::selectLesson(int cur_less_idx)
 {
-    m_card_store->setLessNum(static_cast<Less>(cur_less_idx + 1));
+    m_card_store->setLessNum(static_cast<LessonNumber>(cur_less_idx + 1));
 }
 
 void LessonMediator::loadAllCard()
@@ -67,17 +67,22 @@ void LessonMediator::loadAllCard()
 void LessonMediator::setRandomWord()
 {
     m_cur_word = m_card_store->getNewWord();
+
     assert(m_cur_word);
+
     if (!m_cur_word)
         return;
+
     m_cur_word->show();
     selectBestAnswers();
+
     emit sigWordChanged();
 }
 
 void LessonMediator::selectBestAnswers()
 {
     assert(m_cur_word);
+
     if (!m_cur_word)
         return;
 
@@ -94,7 +99,7 @@ void LessonMediator::selectBestAnswers()
     auto* gen = QRandomGenerator::global();
     std::ranges::shuffle(words_ptr, *gen);
 
-    const int num_elements = gen->bounded(MIN_WORD_COUNT, std::min<int>(words_ptr.size(), MAX_WORD_COUNT));
+    const int num_elements = gen->bounded(kMinWordCount, std::min<int>(words_ptr.size(), kMaxWordCount));
 
     words_ptr.resize(num_elements);
     words_ptr.emplace_back(m_cur_word);
@@ -107,11 +112,11 @@ void LessonMediator::selectBestAnswers()
 
 void LessonMediator::checkSave()
 {
-    if (m_change_count >= SAVE_AFTER)
+    if (m_change_count >= kSaveAfter)
     {
         m_change_count = 0;
         m_card_store->save();
     }
 }
 
-// } // ns classbook
+} // ns simple_riddle

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QJsonObject>
+#include "include/card/PartOfSpeechFwd.h"
 
 namespace simple_riddle {
 
@@ -9,18 +9,6 @@ class Word : public QObject
     Q_OBJECT
 
 public:
-    enum class PartOfSpeech {
-        Verbs,         // Verben          – Verbs
-        Nomen,         // Nomen           – Nouns
-        Adjectives,    // Adjektive       – Adjectives
-        Adverbs,       // Adverbien       – Adverbs
-        FunctionWords, // Funktionswörter – Function words
-        Expressions,   // Ausdrücke       – Expressions
-        Abbreviations  // Abkürzungen     – Abbreviations
-    }; // PartOfSpeech
-
-    Q_ENUM(PartOfSpeech)
-
     Q_PROPERTY(int id MEMBER m_id)
 
     Q_PROPERTY(int views READ getViews NOTIFY sigViewsChanged)
@@ -33,7 +21,7 @@ public:
 
     Q_PROPERTY(QString part_of_speech_text READ getPartOfSpeechText CONSTANT)
 
-    Q_PROPERTY(PartOfSpeech part_of_speech READ getPartOfSpeech CONSTANT)
+    Q_PROPERTY(types::PartOfSpeech part_of_speech READ getPartOfSpeech CONSTANT)
 
 public:
     explicit Word(const QJsonObject& data);
@@ -72,7 +60,7 @@ public slots:
 
     QString getPartOfSpeechText() const;
 
-    PartOfSpeech getPartOfSpeech() const;
+    types::PartOfSpeech getPartOfSpeech() const;
 
 signals:
     void sigViewsChanged();
@@ -91,7 +79,7 @@ private:
     QString m_de_text;
     QString m_ru_text;
 
-    PartOfSpeech m_part_of_speech;
+    types::PartOfSpeech m_part_of_speech;
 }; // Word
 
 } // ns simple_riddle

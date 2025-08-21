@@ -1,17 +1,8 @@
 #pragma once
 
-// namespace classbook {
-// class AnswersModel;
-// }
-
-// #ifndef OPAQUE_AnswersModel
-// #define OPAQUE_AnswersModel
-// Q_DECLARE_OPAQUE_POINTER(classbook::AnswersModel*);
-// #endif
-
 #include "include/models/AnswersModel.h"
 
-#include "QtQmlIntegration"
+#include <QtQmlIntegration>
 
 namespace simple_riddle {
 
@@ -23,7 +14,6 @@ class LessonMediator: public QObject
     Q_OBJECT
 
     QML_ELEMENT
-    QML_SINGLETON
 
     Q_PROPERTY(AnswersModel* answers_model READ getAnswersModel NOTIFY sigAnswersModelChanged /*REQUIRED*/)
     Q_PROPERTY(Word* cur_cord READ getWord NOTIFY sigWordChanged)

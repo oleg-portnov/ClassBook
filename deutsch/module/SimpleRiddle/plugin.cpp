@@ -12,13 +12,12 @@ public:
     {
         Q_ASSERT(uri == QLatin1String("SimpleRiddle"));
 
-        qmlRegisterSingletonType<LessonMediator>(uri, 1, 0, "LessonMediator", [](QQmlEngine *, QJSEngine *) -> QObject * { return new LessonMediator(); });
+        // qmlRegisterSingletonType<simple_riddle::LessonMediator>(uri, 1, 0, "LessonMediator", [](QQmlEngine *, QJSEngine *) -> QObject * { return new simple_riddle::LessonMediator(); });
 
         // qmlRegisterType<CardStore>(uri, 1, 0, "CardStore");
         // qmlRegisterType<AnswersModel>(uri, 1, 0, "AnswersModel");
-        // qmlRegisterType<LessonMediator>(uri, 1, 0, "LessonMediator");
+        qmlRegisterType<simple_riddle::LessonMediator>(uri, 1, 0, "LessonMediator");
     }
 }; // SimpleRiddlePlugin
 
 #include "plugin.moc"
-

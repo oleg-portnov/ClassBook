@@ -24,7 +24,7 @@ public:
 
     int size() const;
 
-    void setLessNum(Less cur_less);
+    void setLessNum(LessonNumber cur_less);
 
     Word* getNewWord();
 
@@ -33,18 +33,18 @@ public:
     LessonWords* getLesson(int index);
 
 private:
-    bool existLessonInFS(const Less& lesson_num);
+    bool existLessonInFS(const LessonNumber& lesson_num);
 
     bool loadFromFile(const QString& path);
-    bool saveLection(const LessonWords* lesson, const Less& lesson_num);
+    bool saveLection(const LessonWords* lesson, const LessonNumber& lesson_num);
 
-    QString getFilePatchInFS(const Less& lesson_num);
-    QString getFilePatchInResource(const Less& lesson_num);
+    QString getFilePatchInFS(const LessonNumber& lesson_num);
+    QString getFilePatchInResource(const LessonNumber& lesson_num);
 
 private:
     std::list<int> m_show_less;
     Lessons m_lessons;
-    Less m_cur_less;
+    LessonNumber m_cur_less;
 }; // CardStore
 
 } // ns simple_riddle

@@ -1,35 +1,55 @@
 #pragma once
 
-#include "include/card/Word.h"
+#include <QtQmlIntegration>
 
 namespace simple_riddle::types {
 
-inline QString toString(const Word::PartOfSpeech& part_of_speech)
+Q_NAMESPACE
+QML_ELEMENT
+
+enum class PartOfSpeech {
+    Verbs,         // Verben          – Verbs
+    Nomen,         // Nomen           – Nouns
+    Adjectives,    // Adjektive       – Adjectives
+    Adverbs,       // Adverbien       – Adverbs
+    FunctionWords, // Funktionswörter – Function words
+    Expressions,   // Ausdrücke       – Expressions
+    Abbreviations  // Abkürzungen     – Abbreviations
+}; // PartOfSpeech
+
+Q_ENUM_NS(PartOfSpeech)
+
+} // ns simple_riddle::types
+
 namespace simple_riddle {
+
+// using namespace types;
+
+inline QString toString(const types::PartOfSpeech& part_of_speech)
 {
     switch (part_of_speech)
     {
-        case Word::PartOfSpeech::Verbs:         return "Verben";
-        case Word::PartOfSpeech::Nomen:         return "Nomen";
-        case Word::PartOfSpeech::Adjectives:    return "Adjektive";
-        case Word::PartOfSpeech::Adverbs:       return "Adverbien";
-        case Word::PartOfSpeech::FunctionWords: return "Funktionswörter";
-        case Word::PartOfSpeech::Expressions:   return "Ausdrücke";
-        case Word::PartOfSpeech::Abbreviations: return "Abkürzungen";
+        case types::PartOfSpeech::Verbs:         return "Verben";
+        case types::PartOfSpeech::Nomen:         return "Nomen";
+        case types::PartOfSpeech::Adjectives:    return "Adjektive";
+        case types::PartOfSpeech::Adverbs:       return "Adverbien";
+        case types::PartOfSpeech::FunctionWords: return "Funktionswörter";
+        case types::PartOfSpeech::Expressions:   return "Ausdrücke";
+        case types::PartOfSpeech::Abbreviations: return "Abkürzungen";
     }
 
     return "";
 }
 
-inline Word::PartOfSpeech fromString(const QString& part_of_speech)
+inline types::PartOfSpeech fromString(const QString& part_of_speech)
 {
-         if (part_of_speech == "Verben")          return Word::PartOfSpeech::Verbs;
-    else if (part_of_speech == "Nomen")           return Word::PartOfSpeech::Nomen;
-    else if (part_of_speech == "Adjektive")       return Word::PartOfSpeech::Adjectives;
-    else if (part_of_speech == "Adverbien")       return Word::PartOfSpeech::Adverbs;
-    else if (part_of_speech == "Funktionswörter") return Word::PartOfSpeech::FunctionWords;
-    else if (part_of_speech == "Ausdrücke")       return Word::PartOfSpeech::Expressions;
-    else                                          return Word::PartOfSpeech::Abbreviations;
+         if (part_of_speech == "Verben")          return types::PartOfSpeech::Verbs;
+    else if (part_of_speech == "Nomen")           return types::PartOfSpeech::Nomen;
+    else if (part_of_speech == "Adjektive")       return types::PartOfSpeech::Adjectives;
+    else if (part_of_speech == "Adverbien")       return types::PartOfSpeech::Adverbs;
+    else if (part_of_speech == "Funktionswörter") return types::PartOfSpeech::FunctionWords;
+    else if (part_of_speech == "Ausdrücke")       return types::PartOfSpeech::Expressions;
+    else                                          return types::PartOfSpeech::Abbreviations;
 }
 
 } // ns simple_riddle

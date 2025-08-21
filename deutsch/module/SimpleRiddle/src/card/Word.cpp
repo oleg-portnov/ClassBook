@@ -2,7 +2,7 @@
 
 #include "include/card/PartOfSpeechFwd.h"
 
-// namespace classbook {
+namespace simple_riddle {
 
 Word::Word(const QJsonObject& data)
     : m_id(-1)
@@ -132,9 +132,9 @@ QString Word::getPartOfSpeechText() const
     return toString(getPartOfSpeech());
 }
 
-Word::PartOfSpeech Word::getPartOfSpeech() const
+types::PartOfSpeech Word::getPartOfSpeech() const
 {
     return m_part_of_speech;
 }
 
-// } // ns classbook
+} // ns simple_riddle

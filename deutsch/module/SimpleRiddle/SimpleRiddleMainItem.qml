@@ -5,9 +5,7 @@ import QtQuick.Layouts
 import SimpleRiddle
 
 Rectangle {
-    id: root_window
-
-    property string cur_id: ""
+    id: root
 
     color: "#004466"
 
@@ -26,14 +24,18 @@ Rectangle {
     onHeightChanged: updateLayout()
     onWidthChanged: updateLayout()
 
+    LessonMediator {
+        id: lesson_mediator
+    }
+
     SideMenuSelLess {
         id: side_menu
 
         onSigLoadLektion: (lek_num) => {
-            LessonMediator.selectLesson(lek_num)
+            lesson_mediator.selectLesson(lek_num)
             flow_view.correct_word_find = false;
             card.updateState()
-            LessonMediator.updateWord()
+            lesson_mediator.updateWord()
         }
     }
 
@@ -47,7 +49,7 @@ Rectangle {
         onTriggered: {
             flow_view.correct_word_find = false
             card.updateState()
-            LessonMediator.updateWord()
+            lesson_mediator.updateWord()
         }
     }
 
@@ -104,22 +106,22 @@ Rectangle {
     WordCard {
         id: card
 
-        Component.onCompleted: LessonMediator.init()
+        Component.onCompleted: lesson_mediator.init()
 
         Layout.fillHeight: true
         Layout.fillWidth: true
 
-        target_language: !LessonMediator.answers_model.need_tr
+        target_language: !lesson_mediator.answers_model.need_tr
 
-        text_de: LessonMediator.cur_cord.de_text
-        text_ru: LessonMediator.cur_cord.ru_text
+        text_de: lesson_mediator.cur_cord.de_text
+        text_ru: lesson_mediator.cur_cord.ru_text
 
-        part_of_speech: LessonMediator.cur_cord.part_of_speech_text
+        part_of_speech: lesson_mediator.cur_cord.part_of_speech_text
 
-        show_count: LessonMediator.cur_cord.views
+        show_count: lesson_mediator.cur_cord.views
 
-        correctly_count: LessonMediator.cur_cord.correct
-        incorrect_count: LessonMediator.cur_cord.incorrect
+        correctly_count: lesson_mediator.cur_cord.correct
+        incorrect_count: lesson_mediator.cur_cord.incorrect
     }
 
     Rectangle {
@@ -150,18 +152,18 @@ Rectangle {
             Repeater {
                 id: card_repeater
 
-                model: LessonMediator.answers_model
+                model: lesson_mediator.answers_model
 
                 AnswerCard {
                     answer_text: displayed_text
                     is_correct_answer: is_correct
 
                     onSigCorrect: {
-                        LessonMediator.userGuessed()
+                        lesson_mediator.userGuessed()
                         timer_update_card.start()
                     }
 
-                    onSigIncorrect: LessonMediator.userNotGuess()
+                    onSigIncorrect: lesson_mediator.userNotGuess()
                 }
             }
         }
