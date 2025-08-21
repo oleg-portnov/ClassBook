@@ -13,7 +13,7 @@
 
 #include "QtQmlIntegration"
 
-// namespace classbook {
+namespace simple_riddle {
 
 class Word;
 class CardStore;
@@ -73,4 +73,4 @@ private:
     Word* m_cur_word;
 }; // LessonMediator
 
-// } // ns classbook
+} // ns simple_riddle

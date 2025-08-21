@@ -2,9 +2,10 @@
 
 #include "include/card/Word.h"
 
-// namespace classbook {
+namespace simple_riddle::types {
 
 inline QString toString(const Word::PartOfSpeech& part_of_speech)
+namespace simple_riddle {
 {
     switch (part_of_speech)
     {
@@ -31,4 +32,4 @@ inline Word::PartOfSpeech fromString(const QString& part_of_speech)
     else                                          return Word::PartOfSpeech::Abbreviations;
 }
 
-// } // ns classbook
+} // ns simple_riddle

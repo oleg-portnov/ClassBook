@@ -4,7 +4,7 @@
 
 #include <QAbstractListModel>
 
-// namespace classbook {
+namespace simple_riddle {
 
 class AnswersModel : public QAbstractListModel
 {
@@ -46,4 +46,4 @@ private:
     words_data m_ans_words;
 }; // AnswersModel
 
-// } // ns classbook
+} // ns simple_riddle

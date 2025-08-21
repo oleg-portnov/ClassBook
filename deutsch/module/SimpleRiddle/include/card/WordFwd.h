@@ -4,11 +4,11 @@
 
 #include <vector>
 
-// namespace classbook {
+namespace simple_riddle {
 
 class Word;
 
 using LessonWords = std::vector<Word>;
 using Lessons = std::vector<LessonWords>;
 
-// } // ns classbook
+} // ns simple_riddle

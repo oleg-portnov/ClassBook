@@ -7,7 +7,7 @@
 
 #include <QString>
 
-// namespace classbook {
+namespace simple_riddle {
 
 class CardStore : public QObject
 {
@@ -47,4 +47,4 @@ private:
     Less m_cur_less;
 }; // CardStore
 
-// } // ns classbook
+} // ns simple_riddle

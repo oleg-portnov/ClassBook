@@ -2,7 +2,7 @@
 
 #include <QJsonObject>
 
-// namespace classbook {
+namespace simple_riddle {
 
 class Word : public QObject
 {
@@ -94,4 +94,4 @@ private:
     PartOfSpeech m_part_of_speech;
 }; // Word
 
-// } // ns classbook
+} // ns simple_riddle

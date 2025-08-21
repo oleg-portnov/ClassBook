@@ -2,10 +2,11 @@
 
 // #include "include/utils.hpp"
 
-// namespace classbook {
+namespace simple_riddle {
 
-enum class Less : int {
-    Null = -1,
+enum class LessonNumber : int {
+    Auto = -1,
+    // A1
     Less_1,
     Less_2,
     Less_3,
@@ -32,4 +33,4 @@ inline Less toLesson(int value)
                     : Less::Null;
 }
 
-// } // ns classbook
+} // ns simple_riddle
